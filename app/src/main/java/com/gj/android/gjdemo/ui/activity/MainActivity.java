@@ -105,7 +105,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        setTitle("GJDemo2017");
+        setTitle("GJDemo");
         mDatas = new ArrayList<>();
         mDatas.add("文件读写");
         mDatas.add("SQLite");

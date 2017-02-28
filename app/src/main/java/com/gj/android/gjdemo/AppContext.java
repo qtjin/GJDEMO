@@ -14,6 +14,8 @@ import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 /**
  * Created by guojing on 2015/12/28.
+ * 全局Application
+ * 打包的命令 E:\AndroidDemo\GJDemo2017>gradle assembleRelease
  */
 public class AppContext extends BaseLibApplication {
 

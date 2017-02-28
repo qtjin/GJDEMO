@@ -16,6 +16,8 @@ android {
 
     freeline {
         hack true
+        productFlavor 'GJDemoFlavor'
+        autoDependency false
     }
 
     signingConfigs {
@@ -73,21 +75,13 @@ android {
     }
 
 
-//    buildTypes {
-//        release {
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//        }
-//    }
-
-
     dexOptions {
         preDexLibraries false
         javaMaxHeapSize "4g"
     }
 
     productFlavors {
-        GJDemo {
+        GJDemoFlavor {
             def new_packageValue;
             def suffix;
             println(getGradle().getStartParameter());
@@ -117,25 +111,25 @@ android {
 //            resValue "string", "app_name", "GJDemo"
 //        }
 //        Baidu {
-//            resValue "string", "app_name", "GJDemo-问医挂号"
+//            resValue "string", "app_name", "GJDemo"
 //        }
 //        Huawei {
 //            resValue "string", "app_name", "GJDemo"
 //        }
 //        Xiaomi {
-//            resValue "string", "app_name", "GJDemo-问医生"
+//            resValue "string", "app_name", "GJDemo"
 //        }
 //        Oppo {
-//            resValue "string", "app_name", "GJDemo-问医挂号平安春雨"
+//            resValue "string", "app_name", "GJDemo"
 //        }
 //        Meizu {
-//            resValue "string", "app_name", "GJDemo-问医挂号健管"
+//            resValue "string", "app_name", "GJDemo"
 //        }
 //        Jifeng {
 //            resValue "string", "app_name", "GJDemo"
 //        }
 //        Jinli {
-//            resValue "string", "app_name", "GJDemo-问医挂号平安春雨"
+//            resValue "string", "app_name", "GJDemo"
 //        }
 //        Lennovo {
 //            resValue "string", "app_name", "GJDemo"
@@ -144,7 +138,7 @@ android {
 //            resValue "string", "app_name", "GJDemo"
 //        }
 //        Sougou {
-//            resValue "string", "app_name", "GJDemo-问医挂号平安春雨"
+//            resValue "string", "app_name", "GJDemo"
 //        }
 //        Ppzhushou {
 //            resValue "string", "app_name", "GJDemo"
