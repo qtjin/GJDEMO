@@ -1,0 +1,10 @@
+<resources>
+    <!-- 通过这个style控制 tab中title的属性大小，默认颜色-->
+    <style name="myTabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">@dimen/sp_14</item>
+        <!-- 这个是设置title textview的默认颜色，如果也设置了tabTextColor，则以后者为准-->
+        <!--<item name="android:textColor">@color/tab_textcolor_normal</item>-->
+        <item name="textAllCaps">true</item>
+        <item name="android:singleLine">true</item>
+    </style>
+</resources>

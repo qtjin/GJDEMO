@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="PowerImageView">
+        <attr name="auto_play" format="boolean"></attr>
+        <attr name="layout_width" format="dimension"></attr>
+        <attr name="layout_height" format="dimension"></attr>
+    </declare-styleable>
+
+    <declare-styleable name="DoughnutProgress">
+        <attr name="doughnut_color" format="color|reference" />
+    </declare-styleable>
+</resources>

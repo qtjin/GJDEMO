@@ -1,0 +1,208 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.antfortune.freeline'
+
+android {
+    compileSdkVersion Integer.parseInt(project.ANDROID_COMPILE_SDK_VERSION)
+    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        applicationId "com.gj.android.gjdemo"
+        minSdkVersion Integer.parseInt(project.ANDROID_MIN_SDK)
+        targetSdkVersion Integer.parseInt(project.ANDROID_TARGET_SDK_VERSION)
+        versionCode Integer.parseInt(project.VERSION_CODE)
+        versionName project.VERSION_NAME
+        multiDexEnabled true //分包 防止方法数超过
+    }
+
+    freeline {
+        hack true
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('gjkeystore.jks')
+            keyAlias "gjkeystore"
+            keyPassword "gj123456"
+            storePassword "gj123456"
+        }
+        prepare {
+            storeFile file('gjkeystore.jks')
+            keyAlias "gjkeystore"
+            keyPassword "gj123456"
+            storePassword "gj123456"
+        }
+        release {
+            storeFile file('gjkeystore.jks')
+            keyAlias "gjkeystore"
+            keyPassword "gj123456"
+            storePassword "gj123456"
+        }
+    }
+
+    def packageValue = "com.gj.android.gjdemo"
+
+    buildTypes {
+        debug {
+            //签名
+            signingConfig signingConfigs.debug
+            minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+            debuggable true
+            buildConfigField "int", "HOST_TYPE", "2"
+            buildConfigField "String", "START_PAGE_KEY", "${START_PAGE_KEY}"
+        }
+        prepare {
+            minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources false
+            signingConfig signingConfigs.release
+            debuggable true
+            buildConfigField "int", "HOST_TYPE", "3"
+            buildConfigField "String", "START_PAGE_KEY", "${START_PAGE_KEY}"
+        }
+        release {
+            minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources false
+            signingConfig signingConfigs.release
+            debuggable false
+            buildConfigField "int", "HOST_TYPE", "1"
+            buildConfigField "String", "START_PAGE_KEY", "${START_PAGE_KEY}"
+        }
+    }
+
+
+//    buildTypes {
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+//    }
+
+
+    dexOptions {
+        preDexLibraries false
+        javaMaxHeapSize "4g"
+    }
+
+    productFlavors {
+        GJDemo {
+            def new_packageValue;
+            def suffix;
+            println(getGradle().getStartParameter());
+            def isTest = checkTest();
+
+            if(isTest) {
+                new_packageValue = packageValue + ".test";
+                suffix = "GJDemo-测试";
+            } else {
+                new_packageValue = packageValue;
+                suffix = "GJDemo";
+            }
+//            if (isTest) {
+//                project.buildscript.dependencies.add("classpath", "com.antfortune.freeline:runtime:0.8.6")
+//            }
+            println(new_packageValue + suffix);
+            applicationId new_packageValue
+            resValue "string", "app_name", suffix
+        }
+//        JztVideo {
+//            resValue "string", "app_name", "GJDemo"
+//        }
+//        Yyb {
+//            resValue "string", "app_name", "GJDemo"
+//        }
+//        Shouji360 {
+//            resValue "string", "app_name", "GJDemo"
+//        }
+//        Baidu {
+//            resValue "string", "app_name", "GJDemo-问医挂号"
+//        }
+//        Huawei {
+//            resValue "string", "app_name", "GJDemo"
+//        }
+//        Xiaomi {
+//            resValue "string", "app_name", "GJDemo-问医生"
+//        }
+//        Oppo {
+//            resValue "string", "app_name", "GJDemo-问医挂号平安春雨"
+//        }
+//        Meizu {
+//            resValue "string", "app_name", "GJDemo-问医挂号健管"
+//        }
+//        Jifeng {
+//            resValue "string", "app_name", "GJDemo"
+//        }
+//        Jinli {
+//            resValue "string", "app_name", "GJDemo-问医挂号平安春雨"
+//        }
+//        Lennovo {
+//            resValue "string", "app_name", "GJDemo"
+//        }
+//        Leshi {
+//            resValue "string", "app_name", "GJDemo"
+//        }
+//        Sougou {
+//            resValue "string", "app_name", "GJDemo-问医挂号平安春雨"
+//        }
+//        Ppzhushou {
+//            resValue "string", "app_name", "GJDemo"
+//        }
+//        Liantong {
+//            resValue "string", "app_name", "GJDemo"
+//        }
+//        Vivo {
+//            resValue "string", "app_name", "GJDemo"
+//        }
+//        Samsung {
+//            resValue "string", "app_name", "GJDemo"
+//        }
+        productFlavors.all {
+            flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+        }
+    }
+
+    applicationVariants.all { variant ->
+        def isRelease = variant.buildType.name.equals('release')
+        variant.outputs.each { output ->
+            def appName = 'GJDemo'
+            def oldFile = output.outputFile
+            def buildName
+            def releaseApkName
+            variant.productFlavors.each { product ->
+                buildName = product.name
+            }
+            releaseApkName = appName + '-' + variant.versionName + '-'/* + buildName  */+ '-' + variant.buildType.name + '.apk'
+            output.outputFile = new File(oldFile.parent, releaseApkName)
+        }
+    }
+}
+
+def checkTest() {
+    def isTest;
+    List<String> list = getGradle().getStartParameter().getTaskNames();
+    if (list.isEmpty()) {
+        isTest = true;
+    } else {
+        //android studio
+        if (list.size() > 1) {
+            isTest = list.get(1).contains("Debug");
+        }
+        //command
+        else {
+            isTest = list.get(0).contains("Debug");
+        }
+    }
+    return isTest;
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':gjlibrary')
+    annotationProcessor "com.jakewharton:butterknife-compiler:${VERSION_BUTTERKNIFE}"
+    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.antfortune.freeline:runtime:0.8.6'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:support-v4:24.2.1'
+}
