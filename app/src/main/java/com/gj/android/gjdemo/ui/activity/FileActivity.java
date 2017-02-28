@@ -10,8 +10,8 @@ import android.widget.Toast;
 
 import com.gj.android.gjdemo.R;
 import com.gj.android.gjdemo.util.FileHelper;
-import com.gj.gjlibrary.base.BaseActivity;
-import com.gj.gjlibrary.util.PermissionGrantUtil;
+import com.gj.android.gjlibrary.base.BaseActivity;
+import com.gj.android.gjlibrary.util.PermissionGrantUtil;
 
 import java.io.IOException;
 

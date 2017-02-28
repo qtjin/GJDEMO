@@ -12,9 +12,10 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/sp_16"
         android:textColor="@color/white"
-        android:padding="10dp"
+        android:paddingLeft="10dp"
         />
-
+<!--    android:paddingTop="50dp"
+    android:paddingBottom="50dp"-->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0.3dp"

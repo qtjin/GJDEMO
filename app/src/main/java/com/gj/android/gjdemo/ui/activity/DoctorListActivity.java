@@ -1,18 +1,16 @@
 package com.gj.android.gjdemo.ui.activity;
 
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.LinearLayout;
 
+import com.gj.android.bean.DoctorListBean;
 import com.gj.android.gjdemo.R;
-import com.gj.android.gjdemo.bean.DoctorListBean;
 import com.gj.android.gjdemo.presenter.DoctorListPresenter;
-import com.gj.gjlibrary.adapter.CommonRecyclerAdapter;
-import com.gj.gjlibrary.adapter.CommonRecyclerAdapterHelper;
-import com.gj.gjlibrary.base.BaseActivity;
+import com.gj.android.gjlibrary.adapter.CommonRecyclerAdapter;
+import com.gj.android.gjlibrary.adapter.CommonRecyclerAdapterHelper;
+import com.gj.android.gjlibrary.base.BaseAutoRecylerListActivity;
+import com.gj.android.gjlibrary.widget.LoadMoreRecyclerView;
 
 import java.util.List;
 
@@ -21,11 +19,13 @@ import butterknife.BindView;
 /**
  * 医生列表
  */
-public class DoctorListActivity extends BaseActivity {
+public class DoctorListActivity extends BaseAutoRecylerListActivity {
 
+    @BindView(R.id.refresh_layout)
+    SwipeRefreshLayout mRefreshLayout;
 
     @BindView(R.id.rv_doctor_list)
-    RecyclerView mRecyclerView;
+    LoadMoreRecyclerView mRecyclerView;
 
     public List<DoctorListBean.DataBean.ListBean> mDatas;
 
@@ -45,52 +45,64 @@ public class DoctorListActivity extends BaseActivity {
 
     @Override
     protected void initListener() {
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
-
-        //设置分隔线
-        //mRecyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
-        //设置增加或删除条目的动画
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        mRecyclerView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-        mAdapter = new CommonRecyclerAdapter<DoctorListBean.DataBean.ListBean>(DoctorListActivity.this, mDatas, R.layout.item_main) {
-            @Override
-            public void convert(CommonRecyclerAdapterHelper helper, DoctorListBean.DataBean.ListBean bean) {
-                helper.setText(R.id.tv_title, bean.getName());
-            }
-        };
-
-        mAdapter.setOnItemClickListener(new CommonRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View itemView, int position) {
-            }
-
-            @Override
-            public void onItemLongClick(View itemView, int position) {
-
-            }
-        });
+        pageSize = 10;
+        mRecyclerView.setPageSize(pageSize);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRefreshLayout.setOnRefreshListener(this);
+        mRecyclerView.setLoadMoreListener(this);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
     public void pressData(Object obj) {
+        mRefreshLayout.setRefreshing(false);
         DoctorListBean.DataBean mDataBean = (DoctorListBean.DataBean) obj;
         if(null!=mDataBean&&null!=mDataBean.getList()){
             mDatas = mDataBean.getList();
+            if(null!=mDatas){
+                if(loadType==LoadType.LOADMORE){
+                    mAdapter.addAll(mDatas);
+                }else{
+                    mAdapter.replaceAll(mDatas);
+                }
+                mRecyclerView.setResultSize(mDatas.size());
+            }
         }
-        mAdapter.replaceAll(mDatas);
-        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
     protected void initData() {
         setTitle("医生列表");
+    }
+
+    @Override
+    protected void getModelData() {
         if(null==mPresenter){
             mPresenter = new DoctorListPresenter(this);
         }
-        mPresenter.getDoctorList();
+        mPresenter.getDoctorList("1","1","","",String.valueOf(curPage));
+    }
+
+    @Override
+    protected void initAdapter() {
+        if(null==mAdapter){
+            mAdapter = new CommonRecyclerAdapter<DoctorListBean.DataBean.ListBean>(DoctorListActivity.this, mDatas, R.layout.item_main) {
+                @Override
+                public void convert(CommonRecyclerAdapterHelper helper, DoctorListBean.DataBean.ListBean bean) {
+                    helper.setText(R.id.tv_title, bean.getName());
+                }
+            };
+        }
+//        mAdapter.setOnItemClickListener(new CommonRecyclerAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View itemView, int position) {
+//            }
+//
+//            @Override
+//            public void onItemLongClick(View itemView, int position) {
+//
+//            }
+//        });
     }
 }

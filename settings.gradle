@@ -1,1 +1,1 @@
-include ':app',':gjlibrary'
+include ':app', ':gjlibrary', ':bean'

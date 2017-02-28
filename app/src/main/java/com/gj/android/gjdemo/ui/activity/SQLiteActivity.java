@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.gj.android.gjdemo.R;
 import com.gj.android.gjdemo.util.MyDBOpenHelper;
-import com.gj.gjlibrary.base.BaseActivity;
+import com.gj.android.gjlibrary.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;

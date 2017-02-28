@@ -10,9 +10,9 @@ import android.widget.LinearLayout;
 
 import com.gj.android.gjdemo.AppContext;
 import com.gj.android.gjdemo.R;
-import com.gj.gjlibrary.adapter.CommonRecyclerAdapter;
-import com.gj.gjlibrary.adapter.CommonRecyclerAdapterHelper;
-import com.gj.gjlibrary.base.BaseActivity;
+import com.gj.android.gjlibrary.adapter.CommonRecyclerAdapter;
+import com.gj.android.gjlibrary.adapter.CommonRecyclerAdapterHelper;
+import com.gj.android.gjlibrary.base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
