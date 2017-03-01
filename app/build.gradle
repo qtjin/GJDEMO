@@ -87,7 +87,7 @@ android {
             println(getGradle().getStartParameter());
             def isTest = checkTest();
 
-            if(isTest) {
+            if (isTest) {
                 new_packageValue = packageValue + ".test";
                 suffix = "GJDemo-测试";
             } else {
@@ -167,7 +167,7 @@ android {
             variant.productFlavors.each { product ->
                 buildName = product.name
             }
-            releaseApkName = appName + '-' + variant.versionName + '-'/* + buildName  */+ '-' + variant.buildType.name + '.apk'
+            releaseApkName = appName + '-' + variant.versionName + '-'/* + buildName  */ + '-' + variant.buildType.name + '.apk'
             output.outputFile = new File(oldFile.parent, releaseApkName)
         }
     }

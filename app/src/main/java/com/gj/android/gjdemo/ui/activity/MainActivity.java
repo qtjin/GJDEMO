@@ -1,33 +1,27 @@
 package com.gj.android.gjdemo.ui.activity;
 
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
 import android.util.DisplayMetrics;
-import android.view.View;
-import android.widget.LinearLayout;
 
 import com.gj.android.gjdemo.AppContext;
 import com.gj.android.gjdemo.R;
-import com.gj.android.gjlibrary.adapter.CommonRecyclerAdapter;
-import com.gj.android.gjlibrary.adapter.CommonRecyclerAdapterHelper;
+import com.gj.android.gjdemo.widget.adapter.MainFragmentPagerAdapter;
 import com.gj.android.gjlibrary.base.BaseActivity;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.gj.android.gjlibrary.widget.HQViewPager;
 
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity {
 
 
-    @BindView(R.id.rv)
-    RecyclerView mRecyclerView;
+    @BindView(R.id.hq_view_pager)
+    HQViewPager mViewPager;
 
-    public List<String> mDatas;
+    @BindView(R.id.tab_layout)
+    TabLayout mTabLayout;
 
-    private CommonRecyclerAdapter<String> adapter;
+    private MainFragmentPagerAdapter mMainFragmentPagerAdapter;
 
     @Override
     protected void getBundleExtras(Bundle extras) {
@@ -51,52 +45,24 @@ public class MainActivity extends BaseActivity {
 
         hideTopLeft();
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(layoutManager);
 
-        //设置分隔线
-        //mRecyclerView.addItemDecoration(new DividerGridItemDecoration(getActivity()));
-        //设置增加或删除条目的动画
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mMainFragmentPagerAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager(),this);
+        mViewPager.setAdapter(mMainFragmentPagerAdapter);
 
-        mRecyclerView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        mTabLayout.setupWithViewPager(mViewPager);
 
-        adapter = new CommonRecyclerAdapter<String>(MainActivity.this,mDatas,R.layout.item_main) {
-            @Override
-            public void convert(CommonRecyclerAdapterHelper helper, String str) {
-                helper.setText(R.id.tv_title,str);
+        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+            //获得到对应位置的Tab
+            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+            //设置自定义的标题
+            if (tab != null) {
+                tab.setCustomView(mMainFragmentPagerAdapter.getTabView(i));
             }
-        };
-
-        adapter.setOnItemClickListener(new CommonRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View itemView, int position) {
-                go(position);
-            }
-
-            @Override
-            public void onItemLongClick(View itemView, int position) {
-
-            }
-        });
-    }
-
-    private void go(int position){
-        switch (position) {
-            case 0:
-                readyGo(FileActivity.class);
-                break;
-            case 1:
-                readyGo(SQLiteActivity.class);
-                break;
-            case 2:
-                readyGo(TabLayoutExampleActivity.class);
-                break;
-            case 3:
-                readyGo(DoctorListActivity.class);
-                break;
         }
+
     }
+
+
 
     @Override
     public void pressData(Object obj) {
@@ -106,13 +72,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initData() {
         setTitle("GJDemo");
-        mDatas = new ArrayList<>();
-        mDatas.add("文件读写");
-        mDatas.add("SQLite");
-        mDatas.add("TabLayout");
-        mDatas.add("医生列表");
-        adapter.replaceAll(mDatas);
-        mRecyclerView.setAdapter(adapter);
+
+
     }
 
 }
