@@ -95,6 +95,7 @@ public class LoadMoreRecyclerView extends RecyclerView {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (null != mListener && mIsFooterEnable && !mIsLoadingMore && dy > 0) {
+                    isLoading = true;
                     int lastVisiblePosition = getLastVisiblePosition();
                     if (lastVisiblePosition + 1 == mAutoLoadAdapter.getItemCount()) {
                         setLoadingMore(true);
@@ -211,6 +212,12 @@ public class LoadMoreRecyclerView extends RecyclerView {
             int type = getItemViewType(position);
             if (type != TYPE_FOOTER && type != TYPE_HEADER) {
                 mInternalAdapter.onBindViewHolder(holder, position);
+            }else if(type == TYPE_FOOTER){
+                if(isLoading){
+                    holder.itemView.setVisibility(View.VISIBLE);
+                }else{
+                    holder.itemView.setVisibility(View.GONE);
+                }
             }
         }
 
@@ -387,6 +394,8 @@ public class LoadMoreRecyclerView extends RecyclerView {
         setAutoLoadMoreEnable(hasMore);
         //getAdapter().notifyItemRemoved(mLoadMorePosition);
         removeItem(mLoadMorePosition);
+        isLoading = false;
+        //removeItem(mAutoLoadAdapter.getItemCount()-1);
         mIsLoadingMore = false;
     }
 
@@ -405,4 +414,6 @@ public class LoadMoreRecyclerView extends RecyclerView {
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
+
+    private boolean isLoading=false;
 }
