@@ -57,17 +57,17 @@ public class DoctorListActivity extends BaseAutoRecylerListActivity {
     @Override
     public void pressData(Object obj) {
         mRefreshLayout.setRefreshing(false);
-        DoctorListBean.DataBean mDataBean = (DoctorListBean.DataBean) obj;
-        if(null!=mDataBean&&null!=mDataBean.getList()){
-            mDatas = mDataBean.getList();
-            if(null!=mDatas){
-                if(loadType==LoadType.LOADMORE){
-                    mAdapter.addAll(mDatas);
-                }else{
-                    mAdapter.replaceAll(mDatas);
+            DoctorListBean.DataBean mDataBean = (DoctorListBean.DataBean) obj;
+            if(null!=mDataBean&&null!=mDataBean.getList()){
+                mDatas = mDataBean.getList();
+                if(null!=mDatas){
+                    if(loadType==LoadType.LOADMORE){
+                        mAdapter.addAll(mDatas);
+                    }else{
+                        mAdapter.replaceAll(mDatas);
+                    }
+                    mRecyclerView.setResultSize(mDatas.size());
                 }
-                mRecyclerView.setResultSize(mDatas.size());
-            }
         }
     }
 

@@ -2,7 +2,6 @@ package com.gj.android.gjdemo.presenter;
 
 
 import com.gj.android.bean.DoctorListBean;
-import com.gj.android.gjdemo.ui.activity.DoctorListActivity;
 import com.gj.android.gjlibrary.api.Network;
 import com.gj.android.gjlibrary.api.URLs;
 import com.gj.android.gjlibrary.base.BaseAutoRecylerListActivity;
@@ -19,18 +18,18 @@ import rx.Subscriber;
 
 public class DoctorListPresenter extends BasePresenter {
 
-    private BaseAutoRecylerListActivity mDoctorListActivity;
+    private BaseAutoRecylerListActivity mBaseAutoRecylerListActivity;
 
-    public DoctorListPresenter(DoctorListActivity mDoctorListActivity) {
-        super(mDoctorListActivity);
-        this.mDoctorListActivity = mDoctorListActivity;
+    public DoctorListPresenter(BaseAutoRecylerListActivity mBaseAutoRecylerListActivity) {
+        super(mBaseAutoRecylerListActivity);
+        this.mBaseAutoRecylerListActivity = mBaseAutoRecylerListActivity;
     }
 
     public void getDoctorList(String seqType,String drType,String SearchStr,String sectionsName,String curPage){
 
         Subscriber subscriber = null;
 
-        if(mDoctorListActivity.loadType== BaseAutoRecylerListActivity.LoadType.INIT){
+        if(mBaseAutoRecylerListActivity.loadType== BaseAutoRecylerListActivity.LoadType.INIT){
              subscriber = new ProgressSubscriber<DoctorListBean.DataBean>(baseActivity) { //带进度条的订阅者
                 @Override
                 public void onNext(DoctorListBean.DataBean DataBean) {
