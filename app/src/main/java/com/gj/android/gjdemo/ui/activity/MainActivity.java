@@ -71,7 +71,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        setTitle("GJDemo");
+        setTitle("GJDemo2017");
 
 
     }
