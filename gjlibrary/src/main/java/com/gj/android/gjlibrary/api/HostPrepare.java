@@ -5,7 +5,7 @@ package com.gj.android.gjlibrary.api;
  * 预发布环境HOST对象
  */
 public final class HostPrepare implements IHostFetcher {
-    private final String fHOST = "test-api.998jk.com";
+    private final String fHOST = "api.998jk.com";
 
     private final String fHOST_JKDA = fHOST + "/jkda";
 

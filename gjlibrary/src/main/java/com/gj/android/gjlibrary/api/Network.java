@@ -2,58 +2,63 @@
 
 package com.gj.android.gjlibrary.api;
 
-import com.gj.android.gjlibrary.util.logger.AbLog;
+import android.util.Log;
+
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.CallAdapter;
-import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
 public class Network {
 
-    private static Api api;
-    private static OkHttpClient okHttpClient;
-    private static HttpLoggingInterceptor httpLoggingInterceptor;
-    private static Converter.Factory gsonConverterFactory = GsonConverterFactory.create();
-    private static CallAdapter.Factory rxJavaCallAdapterFactory = RxJavaCallAdapterFactory.create();
-    private static String BaseURL = "";
+    private Retrofit retrofit;
 
-    public static void setBaseURL(String urlStr){
-        BaseURL = urlStr;
+    public static final String BASE_URL = URLs.HTTPS_URL;
+
+    private static final int DEFAULT_TIMEOUT = 5; //超时5秒
+
+    private static final String TAG = "Network";
+
+    /**
+     * 构造方法私有
+     */
+    private Network(){
+
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override
+            public void log(String message) {
+                Log.d(TAG,"message--->"+message);
+            }
+        });
+
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .addInterceptor(httpLoggingInterceptor).build();
+
+        retrofit = new Retrofit.Builder()
+                .client(okHttpClient)
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
     }
 
-    public static String getBaseURL(){
-        return BaseURL;
+
+    public Api getApi() {
+        return retrofit.create(Api.class);
     }
 
+    private static class NetworkHolder{
+        private static final Network network = new Network();
+    }
 
-    public static Api getApi() {
-        if (api == null) {
-
-            httpLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-                @Override
-                public void log(String message) {
-                    AbLog.i("httpLoggingInterceptor message: "+message);
-                }
-            });
-            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-            //okHttpClient = new OkHttpClient();
-
-            okHttpClient = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
-
-            Retrofit retrofit = new Retrofit.Builder()
-                    .client(okHttpClient)
-                    .baseUrl(BaseURL)
-                    .addConverterFactory(gsonConverterFactory)
-                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
-                    .build();
-            api = retrofit.create(Api.class);
-        }
-        return api;
+    public static Network getInstance(){
+        return NetworkHolder.network;
     }
 
 }

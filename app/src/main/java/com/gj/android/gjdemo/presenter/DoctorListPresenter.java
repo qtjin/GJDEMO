@@ -3,7 +3,6 @@ package com.gj.android.gjdemo.presenter;
 
 import com.gj.android.bean.DoctorListBean;
 import com.gj.android.gjlibrary.api.Network;
-import com.gj.android.gjlibrary.api.URLs;
 import com.gj.android.gjlibrary.base.BaseAutoRecylerListActivity;
 import com.gj.android.gjlibrary.base.BasePresenter;
 import com.gj.android.gjlibrary.util.rxjava.MySubscriber;
@@ -45,10 +44,7 @@ public class DoctorListPresenter extends BasePresenter {
             };
         }
 
-
-        Network.setBaseURL(URLs.GET_WYS_DOCTOR_LIST); //设置URL
-
-        Observable<DoctorListBean.DataBean> observable = Network.getApi()
+        Observable<DoctorListBean.DataBean> observable = Network.getInstance().getApi()
                 .getDoctorList(seqType,drType,SearchStr,sectionsName,curPage).map(new HttpResultFunc<DoctorListBean.DataBean>()); //被订阅者
 
         toSubscribe(observable,subscriber);  //订阅

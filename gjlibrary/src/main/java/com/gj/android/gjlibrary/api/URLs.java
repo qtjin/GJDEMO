@@ -6,14 +6,18 @@ package com.gj.android.gjlibrary.api;
  */
 public class URLs {
 
+    private final static IHostFetcher sIHostFetcher = ApiConfig.getInstance();
+
     public final static String HTTP = "http://";
+    public final static String HTTPS = "https://";
     public final static String URL_SPLITTER = "/";
-    public final static String HOST_JKDA = ConfigUtils.HOST_JKDA;
+    public final static String HOST_JKDA = sIHostFetcher.getHOST_JKDA();
 
 
 
-    //问医生——获取医生药师列表
-    public final static String GET_WYS_DOCTOR_LIST = HTTP + HOST_JKDA + URL_SPLITTER /*+ "mobile/wys/getDoctorListV29.json"*/;
+    public final static String HTTP_URL = HTTP + HOST_JKDA + URL_SPLITTER;
+
+    public final static String HTTPS_URL = HTTPS + HOST_JKDA + URL_SPLITTER;
 
 
 }
