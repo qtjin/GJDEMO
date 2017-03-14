@@ -17,7 +17,7 @@ public class Network {
 
     private Retrofit retrofit;
 
-    public static final String BASE_URL = URLs.HTTPS_URL;
+    public static final String BASE_URL = URLs.HOST_JKDA;
 
     private static final int DEFAULT_TIMEOUT = 5; //超时5秒
 
@@ -37,14 +37,15 @@ public class Network {
 
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .addInterceptor(httpLoggingInterceptor).build();
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS) //设置超时时间
+                .addInterceptor(httpLoggingInterceptor).build(); //添加拦截器
 
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .baseUrl(BASE_URL) //填写自己服务器IP
+                .addConverterFactory(GsonConverterFactory.create()) //添加json转换器
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create()) //添加 RxJava 适配器
                 .build();
     }
 

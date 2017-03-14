@@ -6,22 +6,14 @@ package com.gj.android.gjlibrary.api;
  */
 public class ApiConfig implements IHostFetcher {
 
+    public final static String HTTP = "http://";
+    public final static String HTTPS = "https://";
+    public final static String URL_SPLITTER = "/";
+
     private IHostFetcher iHostFetcher;
 
-    private ApiConfig() {
-        throw new IllegalArgumentException("单例模式不能创建实例");
-    }
-
-    private ApiConfig(IHostFetcher iHostFetcher) {
-        this.iHostFetcher = iHostFetcher;
-    }
-
-    private static final IHostFetcher sApiConfig;
-
-    static {
+    private ApiConfig(){
         int type = BuildConfigUtils.getBuildConfigValue("HOST_TYPE", Integer.valueOf(-1));
-
-        IHostFetcher iHostFetcher;
         switch (type) {
             //release
             case 1:
@@ -39,15 +31,32 @@ public class ApiConfig implements IHostFetcher {
             default:
                 iHostFetcher = new HostRelease();
         }
-        sApiConfig = new ApiConfig(iHostFetcher);
     }
 
-    public static IHostFetcher getInstance() {
-        return sApiConfig;
+    private static class ApiConfigHolder{
+        private static final ApiConfig apiConfig = new ApiConfig();
+    }
+
+    public static ApiConfig getInstance() {
+        return ApiConfigHolder.apiConfig;
     }
 
     @Override
     public String getHOST_JKDA() {
-        return iHostFetcher.getHOST_JKDA();
+        return addSchemeToUrl(iHostFetcher.getHOST_JKDA());
+    }
+
+
+    public String addSchemeToUrl(String hostname) {
+        if (hostname == null) {
+            return null;
+        }
+        if (!hostname.contains(HTTPS)) {
+            hostname = HTTPS + hostname;
+        }
+        if (!hostname.endsWith(URL_SPLITTER)) {
+            hostname += URL_SPLITTER;
+        }
+        return hostname;
     }
 }
