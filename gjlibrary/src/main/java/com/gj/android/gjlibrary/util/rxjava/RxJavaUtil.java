@@ -100,6 +100,7 @@ public class RxJavaUtil<T> {
                     }
                 })
                 .subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 IO 线程
+                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
                 .subscribe(new Subscriber<R>() {
                     @Override
@@ -124,6 +125,7 @@ public class RxJavaUtil<T> {
     public Subscription just(T getElemMethod,final CallbackInter callbackInter){
             return Observable.just(getElemMethod)
                 .subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 IO 线程
+                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
                 .subscribe(new Action1<T>() {
                     @Override
@@ -140,6 +142,8 @@ public class RxJavaUtil<T> {
      */
     public Subscription merge(Observable<T> elem,Observable<T> elem2,final CallbackInter callbackInter){
         return Observable.merge(elem,elem2)
+                .subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 IO 线程
+                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<T>() {
                     @Override
@@ -163,7 +167,9 @@ public class RxJavaUtil<T> {
     public Subscription concat(Observable<T> elem, Observable<T> elem2, Observable<T> elem3, final CallbackInter callbackInter){
        return Observable.concat(elem, elem2, elem3)
                 .first()
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<T>() {
                     @Override
                     public void onCompleted() {
