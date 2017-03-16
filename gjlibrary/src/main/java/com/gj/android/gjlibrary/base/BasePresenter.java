@@ -34,7 +34,7 @@ public abstract class BasePresenter<T> {
      * @param <T>
      */
     protected  <T> void toSubscribe(Observable<T> o, Subscriber<T> s){
-        o.subscribeOn(Schedulers.io())
+       baseActivity.subscription = o.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s);
