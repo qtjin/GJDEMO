@@ -1,9 +1,9 @@
-package com.gj.android.gjdemo.util;
+package com.gj.android.gjlibrary.util.rxjava;
 
 import android.view.View;
 import android.widget.EditText;
 
-import com.gj.android.gjdemo.R;
+import com.gj.android.gjlibrary.R;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.jakewharton.rxbinding.widget.TextViewTextChangeEvent;
@@ -91,7 +91,7 @@ public class RxJavaUtil<T> {
     /**
      * 解决嵌套回调（callback hell）问题
      */
-    public Subscription flatMap(Observable<T> observable,final Observable<R> observableResult, final CallbackInter callbackInter){
+    public Subscription flatMap(Observable<T> observable, final Observable<R> observableResult, final CallbackInter callbackInter){
         return observable
                 .flatMap(new Func1<T, Observable<R>>() {
                     @Override
