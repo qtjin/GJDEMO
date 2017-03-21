@@ -197,6 +197,4 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:${VERSION_BUTTERKNIFE}"
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.antfortune.freeline:runtime:0.8.6'
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:support-v4:24.2.1'
 }
