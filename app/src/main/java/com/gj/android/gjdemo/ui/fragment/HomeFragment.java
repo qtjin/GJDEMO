@@ -11,6 +11,7 @@ import com.gj.android.gjdemo.ui.activity.DoctorListActivity;
 import com.gj.android.gjdemo.ui.activity.FileActivity;
 import com.gj.android.gjdemo.ui.activity.SQLiteActivity;
 import com.gj.android.gjdemo.ui.activity.TabLayoutExampleActivity;
+import com.gj.android.gjdemo.ui.activity.geoquiz.QuizActivity;
 import com.gj.android.gjlibrary.adapter.CommonRecyclerAdapter;
 import com.gj.android.gjlibrary.adapter.CommonRecyclerAdapterHelper;
 import com.gj.android.gjlibrary.base.BaseFragment;
@@ -77,6 +78,7 @@ public class HomeFragment extends BaseFragment {
         mDatas.add("SQLite");
         mDatas.add("TabLayout");
         mDatas.add("医生列表");
+        mDatas.add("StudyGeoQuiz");
         adapter.replaceAll(mDatas);
         mRecyclerView.setAdapter(adapter);
     }
@@ -99,6 +101,9 @@ public class HomeFragment extends BaseFragment {
                 break;
             case 3:
                 readyGo(DoctorListActivity.class);
+                break;
+            case 4:
+                readyGo(QuizActivity.class);
                 break;
         }
     }

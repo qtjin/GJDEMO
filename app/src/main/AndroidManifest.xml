@@ -93,5 +93,9 @@
         <activity android:name=".ui.activity.SQLiteActivity" />
         <activity android:name=".ui.activity.TabLayoutExampleActivity" />
         <activity android:name=".ui.activity.DoctorListActivity"></activity>
+
+
+        <activity android:name=".ui.activity.geoquiz.QuizActivity"/>
+        <activity android:name=".ui.activity.geoquiz.CheatActivity"/>
     </application>
 </manifest>
