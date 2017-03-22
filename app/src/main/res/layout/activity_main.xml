@@ -10,7 +10,7 @@
 
     <include layout="@layout/layout_topbar"/>
 
-    <com.gj.android.gjlibrary.widget.HQViewPager
+    <com.gj.android.commonlibrary.widget.HQViewPager
         android:id="@+id/hq_view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

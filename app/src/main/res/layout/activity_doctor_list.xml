@@ -13,7 +13,7 @@
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <com.gj.android.gjlibrary.widget.LoadMoreRecyclerView
+    <com.gj.android.commonlibrary.widget.LoadMoreRecyclerView
         android:id="@+id/rv_doctor_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

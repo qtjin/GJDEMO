@@ -12,9 +12,9 @@ import com.gj.android.gjdemo.ui.activity.DoctorListActivity2;
 import com.gj.android.gjdemo.ui.activity.FileActivity;
 import com.gj.android.gjdemo.ui.activity.SQLiteActivity;
 import com.gj.android.gjdemo.ui.activity.TabLayoutExampleActivity;
-import com.gj.android.gjlibrary.adapter.CommonRecyclerAdapter;
-import com.gj.android.gjlibrary.adapter.CommonRecyclerAdapterHelper;
-import com.gj.android.gjlibrary.base.BaseFragment;
+import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapter;
+import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapterHelper;
+import com.gj.android.commonlibrary.base.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,7 +3,7 @@ package com.gj.android.gjdemo.ui.activity;
 import android.support.v4.app.Fragment;
 
 import com.gj.android.gjdemo.ui.fragment.DoctorListFragment;
-import com.gj.android.gjlibrary.base.SingleFragmentActivity;
+import com.gj.android.commonlibrary.base.SingleFragmentActivity;
 
 /**
  * 医生列表

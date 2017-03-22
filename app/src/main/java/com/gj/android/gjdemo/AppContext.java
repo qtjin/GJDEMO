@@ -5,7 +5,7 @@ import android.support.multidex.MultiDex;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.gj.android.gjlibrary.base.BaseLibApplication;
+import com.gj.android.commonlibrary.base.BaseLibApplication;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;

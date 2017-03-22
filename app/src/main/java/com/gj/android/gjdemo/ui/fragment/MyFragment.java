@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.gj.android.gjdemo.R;
 import com.gj.android.gjdemo.widget.adapter.MyFragmentPagerAdapter;
-import com.gj.android.gjlibrary.base.BaseFragment;
+import com.gj.android.commonlibrary.base.BaseFragment;
 
 import butterknife.BindView;
 

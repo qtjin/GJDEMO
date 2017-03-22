@@ -7,8 +7,8 @@ import android.util.DisplayMetrics;
 import com.gj.android.gjdemo.AppContext;
 import com.gj.android.gjdemo.R;
 import com.gj.android.gjdemo.widget.adapter.MainFragmentPagerAdapter;
-import com.gj.android.gjlibrary.base.BaseActivity;
-import com.gj.android.gjlibrary.widget.HQViewPager;
+import com.gj.android.commonlibrary.base.BaseActivity;
+import com.gj.android.commonlibrary.widget.HQViewPager;
 
 import butterknife.BindView;
 

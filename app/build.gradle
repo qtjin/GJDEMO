@@ -193,7 +193,7 @@ def checkTest() {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':gjlibrary')
+    compile project(':CommonLibrary')
     annotationProcessor "com.jakewharton:butterknife-compiler:${VERSION_BUTTERKNIFE}"
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.antfortune.freeline:runtime:0.8.6'

@@ -7,10 +7,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import com.gj.android.bean.DoctorListBean;
 import com.gj.android.gjdemo.R;
 import com.gj.android.gjdemo.presenter.DoctorListPresenter;
-import com.gj.android.gjlibrary.adapter.CommonRecyclerAdapter;
-import com.gj.android.gjlibrary.adapter.CommonRecyclerAdapterHelper;
-import com.gj.android.gjlibrary.base.BaseAutoRecylerListActivity;
-import com.gj.android.gjlibrary.widget.LoadMoreRecyclerView;
+import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapter;
+import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapterHelper;
+import com.gj.android.commonlibrary.base.BaseAutoRecylerListActivity;
+import com.gj.android.commonlibrary.widget.LoadMoreRecyclerView;
 
 import java.util.List;
 

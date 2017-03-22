@@ -2,11 +2,11 @@ package com.gj.android.gjdemo.presenter;
 
 
 import com.gj.android.bean.DoctorListBean;
-import com.gj.android.gjlibrary.api.Network;
-import com.gj.android.gjlibrary.base.BaseAutoRecylerListActivity;
-import com.gj.android.gjlibrary.base.BasePresenter;
-import com.gj.android.gjlibrary.util.rxjava.MySubscriber;
-import com.gj.android.gjlibrary.util.rxjava.ProgressSubscriber;
+import com.gj.android.commonlibrary.api.Network;
+import com.gj.android.commonlibrary.base.BaseAutoRecylerListActivity;
+import com.gj.android.commonlibrary.base.BasePresenter;
+import com.gj.android.commonlibrary.util.rxjava.MySubscriber;
+import com.gj.android.commonlibrary.util.rxjava.ProgressSubscriber;
 
 import rx.Observable;
 import rx.Subscriber;
