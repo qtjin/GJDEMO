@@ -4,12 +4,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.gj.android.bean.DoctorListBean;
-import com.gj.android.gjdemo.R;
-import com.gj.android.gjdemo.presenter.DoctorListFragmentPresenter;
 import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapter;
 import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapterHelper;
 import com.gj.android.commonlibrary.base.BaseAutoRecylerListFragment;
 import com.gj.android.commonlibrary.widget.LoadMoreRecyclerView;
+import com.gj.android.gjdemo.R;
+import com.gj.android.gjdemo.presenter.DoctorListFragmentPresenter;
 
 import java.util.List;
 
@@ -31,6 +31,16 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
     private CommonRecyclerAdapter<DoctorListBean.DataBean.ListBean> mAdapter;
 
     private DoctorListFragmentPresenter mPresenter;
+
+
+    /**
+     * Fragment内部实例化，封装起来
+     * @return
+     */
+    public static DoctorListFragment newInstance(){
+        return  new DoctorListFragment();
+    }
+
 
     @Override
     protected int getContentViewLayoutId() {

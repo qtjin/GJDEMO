@@ -13,6 +13,6 @@ public class DoctorListActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return new DoctorListFragment();
+        return DoctorListFragment.newInstance();
     }
 }
