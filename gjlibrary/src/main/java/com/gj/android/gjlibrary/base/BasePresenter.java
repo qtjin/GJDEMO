@@ -18,10 +18,6 @@ public abstract class BasePresenter<T> {
 
     protected BaseActivity baseActivity;
 
-    protected String SUCCESS_STR;
-
-    protected String ERROR_STR;
-
     public BasePresenter(BaseActivity baseActivity){
         this.baseActivity = baseActivity;
     }

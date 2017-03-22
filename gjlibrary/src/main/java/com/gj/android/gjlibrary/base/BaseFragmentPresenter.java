@@ -1,23 +1,12 @@
 package com.gj.android.gjlibrary.base;
 
-import android.widget.Toast;
+import com.gj.android.bean.BaseBean;
+import com.gj.android.gjlibrary.util.rxjava.ApiException;
 
-import com.gj.android.gjlibrary.util.ToastUtils;
-import com.gj.android.gjlibrary.util.logger.AbLog;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.nio.charset.Charset;
-
-import okhttp3.MediaType;
-import okhttp3.ResponseBody;
-import okio.Buffer;
-import okio.BufferedSource;
 import rx.Observable;
-import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -29,109 +18,82 @@ public abstract class BaseFragmentPresenter<T> {
 
     protected BaseFragment baseFragment;
 
-    protected String SUCCESS_STR;
-
-    protected String ERROR_STR;
 
     public BaseFragmentPresenter(BaseFragment baseFragment){
         this.baseFragment = baseFragment;
     }
 
-    public interface CallBackListener{ //访问网络获取JSON数据之后回调给UI界面的回调接口
-        public void callBack(boolean result);
-    }
 
     /**
-     * 返回实体类的
-     * @param observable
+     * 订阅
+     * @param o 被订阅者
+     * @param s 订阅者
+     * @param <T>
      */
-    protected void doNetWorkEntity(Observable<T> observable){
-        baseFragment.showProgressDialog();
-        Observer<T> observer = new Observer<T>() {
-
-            @Override
-            public void onCompleted() {
-                baseFragment.hideProgressDialog();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                baseFragment.hideProgressDialog();
-            }
-
-            @Override
-            public void onNext(T entity) {
-                baseFragment.hideProgressDialog();
-                baseFragment.pressData(entity);
-            }
-        };
-
-        baseFragment.subscription =
-                 observable.subscribeOn(Schedulers.io())
+    protected  <T> void toSubscribe(Observable<T> o, Subscriber<T> s){
+        baseFragment.subscription = o.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
-
+                .subscribe(s);
     }
 
     /**
-     * 返回JSON的
-     * @param observable
+     * 用来统一处理Http的resultCode,并将HttpResult的Data部分剥离出来返回给subscriber
+     *
+     * @param <T>   Subscriber真正需要的数据类型，也就是Data部分的数据类型
      */
-    protected void doNetWorkJson(Observable<ResponseBody> observable,final CallBackListener callBackListener){
+    public static class HttpResultFunc<T> implements Func1<BaseBean<T>, T> {
 
-        baseFragment.showProgressDialog();
-
-        Observer<ResponseBody> observer = new Observer<ResponseBody>() {
-
-            @Override
-            public void onCompleted() {
-                baseFragment.hideProgressDialog();
+        @Override
+        public T call(BaseBean<T> baseBean) {
+            if (baseBean.success!=1) {
+                throw new ApiException(baseBean.error);
+            }else if(null== baseBean.data){
+                throw new ApiException("暂无数据");
             }
+            return baseBean.data;
+        }
+    }
 
-            @Override
-            public void onError(Throwable e) {
-                baseFragment.hideProgressDialog();
-                ToastUtils.show(baseFragment.getActivity(), ERROR_STR +e.toString(), Toast.LENGTH_SHORT);
+    /**
+     * flatMap
+     * 在有序二次请求的时候可以用到，第一次请求返回的Observable对象通过flatMap转换
+     * 在其构造方法中传入下一次请求要访问接口的返回值类型来作为call方法的返回值类型
+     * 最后给subscriber订阅
+     */
+    public static class HttpResultFlatFunc<E,F> implements Func1<BaseBean<E>, Observable<BaseBean<F>>> {
+
+        public Observable<BaseBean<F>> observable;
+
+        public HttpResultFlatFunc(Observable<BaseBean<F>> observable){
+            this.observable = observable;
+        }
+
+        @Override
+        public Observable<BaseBean<F>> call(BaseBean<E> baseBean) {
+            if (baseBean.success!=1) {
+                throw new ApiException(baseBean.error);
+            }else if(null== baseBean.data){
+                throw new ApiException("暂无数据");
             }
+            return observable;
+        }
+    }
 
-            @Override
-            public void onNext(ResponseBody responseBody) {
-                baseFragment.hideProgressDialog();
-                BufferedSource source = responseBody.source();
-                try {
-                    source.request(Long.MAX_VALUE); // Buffer the entire body.
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Buffer buffer = source.buffer();
-                Charset UTF8 = Charset.forName("UTF-8");
-                Charset charset = UTF8;
-                MediaType contentType = responseBody.contentType();
-                if(contentType != null){
-                    charset = contentType.charset(UTF8);
-                    String json = buffer.clone().readString(charset);
-                    AbLog.i("json: "+json);
-                    try {
-                        JSONObject jsonObject = new JSONObject(json);
-                        boolean result = jsonObject.getBoolean("success");
-                        if (result) { //点赞成功
-                            ToastUtils.show(baseFragment.getActivity(), SUCCESS_STR, Toast.LENGTH_SHORT);
-                            callBackListener.callBack(true);
-                        }else{
-                            ToastUtils.show(baseFragment.getActivity(), ERROR_STR, Toast.LENGTH_SHORT);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
+    /**
+     * 过滤 如果Boolean=false就停止后面链式方法的执行
+     */
+    public static class HttpResultFilterFunc implements Func1<BaseBean, Boolean> {
+
+        @Override
+        public Boolean call(BaseBean baseBean) {
+            if (baseBean.success!=1) {
+                throw new ApiException(baseBean.error);
+            }else if(null== baseBean.data){
+                throw new ApiException("暂无数据");
             }
-        };
-
-        baseFragment.subscription =
-                observable.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(observer);
-
+            return baseBean.success==1;
+        }
     }
 
 }

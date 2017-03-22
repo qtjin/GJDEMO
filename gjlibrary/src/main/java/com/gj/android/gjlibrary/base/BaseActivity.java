@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,8 +43,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected TextView mTvTitle;
 
-    protected Toolbar mToolbar;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,19 +55,16 @@ public abstract class BaseActivity extends AppCompatActivity {
             getBundleExtras(extras);
         }
 
-        mToolbar = (Toolbar) findViewById(R.id.topToolbar);
-        if(null!=mToolbar){
-            mTvRight = (TextView) mToolbar.findViewById(R.id.tv_right);
-            mIvLeft = (ImageView) mToolbar.findViewById(R.id.iv_left);
-            mTvTitle = (TextView) mToolbar.findViewById(R.id.tv_title);
-            if(null!=mIvLeft){
-                mIvLeft.setOnClickListener(new View.OnClickListener() { //设置左边的返回按钮的监听
-                    @Override
-                    public void onClick(View v) {
-                        onTopLeftOnClick();
-                    }
-                });
-            }
+        mTvRight = (TextView) findViewById(R.id.tv_right);
+        mIvLeft = (ImageView) findViewById(R.id.iv_left);
+        mTvTitle = (TextView) findViewById(R.id.tv_title);
+        if(null!=mIvLeft){
+            mIvLeft.setOnClickListener(new View.OnClickListener() { //设置左边的返回按钮的监听
+                @Override
+                public void onClick(View v) {
+                    onTopLeftOnClick();
+                }
+            });
         }
         ButterKnife.bind(this);
         AbAppManager.getAbAppManager().addActivity(this);
@@ -200,6 +194,14 @@ public abstract class BaseActivity extends AppCompatActivity {
             mTvRight.setVisibility(View.VISIBLE);
         }
     }
+    /**
+     * 隐藏TOP 右边按钮
+     */
+    protected void hideTopRight() {
+        if (mTvRight != null) {
+            mTvRight.setVisibility(View.GONE);
+        }
+    }
 
     /**
      * 设置标题
@@ -207,6 +209,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void setTitle(String title) {
         if (mTvTitle != null) {
             mTvTitle.setText(title);
+        }
+    }
+    /**
+     * 设置右边内容
+     */
+    protected void setRightText(String rightText) {
+        if (mTvRight != null) {
+            mTvRight.setText(rightText);
         }
     }
 

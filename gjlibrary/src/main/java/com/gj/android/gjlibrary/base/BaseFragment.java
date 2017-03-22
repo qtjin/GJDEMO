@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.gj.android.gjlibrary.R;
 
@@ -31,21 +33,41 @@ public abstract class BaseFragment extends Fragment {
     public abstract void pressData(Object obj);
 
     protected View mRootView;
+
+    protected ImageView mIvLeft;
+
+    protected TextView mTvRight;
+
+    protected TextView mTvTitle;
+
+    protected void onTopLeftOnClick(){ //左边返回键
+        getActivity().finish();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ;if (getContentViewLayoutId() != 0) {
+        if (getContentViewLayoutId() != 0) {
             mRootView = inflater.inflate(getContentViewLayoutId(), container, false);
-            ButterKnife.bind(this, mRootView);
-            initListener();
-            initData();
-            return mRootView;
         } else {
             mRootView = super.onCreateView(inflater, container, savedInstanceState);
-            ButterKnife.bind(this, mRootView);
-            initListener();
-            initData();
-            return mRootView;
         }
+
+        mTvRight = (TextView) mRootView.findViewById(R.id.tv_right);
+        mIvLeft = (ImageView) mRootView.findViewById(R.id.iv_left);
+        mTvTitle = (TextView) mRootView.findViewById(R.id.tv_title);
+        if(null!=mIvLeft){
+            mIvLeft.setOnClickListener(new View.OnClickListener() { //设置左边的返回按钮的监听
+                @Override
+                public void onClick(View v) {
+                    onTopLeftOnClick();
+                }
+            });
+        }
+
+        ButterKnife.bind(this, mRootView);
+        initListener();
+        initData();
+        return mRootView;
     }
 
     @Override
@@ -146,6 +168,58 @@ public abstract class BaseFragment extends Fragment {
     public void hideProgressDialog() {
         if (mIsVisible && mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
+        }
+    }
+
+    /**
+     * 显示返回按钮
+     */
+    protected void hideTopLeft() {
+        if (mIvLeft != null) {
+            mIvLeft.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 显示返回按钮
+     */
+    protected void showTopLeft() {
+        if (mIvLeft != null) {
+            mIvLeft.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * 显示TOP 右边按钮
+     */
+    protected void showTopRight() {
+        if (mTvRight != null) {
+            mTvRight.setVisibility(View.VISIBLE);
+        }
+    }
+    /**
+     * 隐藏TOP 右边按钮
+     */
+    protected void hideTopRight() {
+        if (mTvRight != null) {
+            mTvRight.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 设置标题
+     */
+    protected void setTitle(String title) {
+        if (mTvTitle != null) {
+            mTvTitle.setText(title);
+        }
+    }
+    /**
+     * 设置右边内容
+     */
+    protected void setRightText(String rightText) {
+        if (mTvRight != null) {
+            mTvRight.setText(rightText);
         }
     }
 }

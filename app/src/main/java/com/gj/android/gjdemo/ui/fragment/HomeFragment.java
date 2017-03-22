@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.gj.android.gjdemo.R;
 import com.gj.android.gjdemo.ui.activity.DoctorListActivity;
+import com.gj.android.gjdemo.ui.activity.DoctorListActivity2;
 import com.gj.android.gjdemo.ui.activity.FileActivity;
 import com.gj.android.gjdemo.ui.activity.SQLiteActivity;
 import com.gj.android.gjdemo.ui.activity.TabLayoutExampleActivity;
@@ -77,6 +78,7 @@ public class HomeFragment extends BaseFragment {
         mDatas.add("SQLite");
         mDatas.add("TabLayout");
         mDatas.add("医生列表");
+        mDatas.add("医生列表2");
         adapter.replaceAll(mDatas);
         mRecyclerView.setAdapter(adapter);
     }
@@ -99,6 +101,9 @@ public class HomeFragment extends BaseFragment {
                 break;
             case 3:
                 readyGo(DoctorListActivity.class);
+                break;
+            case 4:
+                readyGo(DoctorListActivity2.class);
                 break;
         }
     }

@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/app_bg_grey</item>
         <item name="colorPrimaryDark">@color/app_bg_grey_dark</item>
         <item name="colorAccent">@color/text_666666</item>
+        <item name="android:colorBackground">@color/base_bg</item>
     </style>
 
     <style name="myToolbarNavigationButtonStyle" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">

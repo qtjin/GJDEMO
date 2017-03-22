@@ -92,6 +92,7 @@
         <activity android:name=".ui.activity.FileActivity" />
         <activity android:name=".ui.activity.SQLiteActivity" />
         <activity android:name=".ui.activity.TabLayoutExampleActivity" />
-        <activity android:name=".ui.activity.DoctorListActivity"></activity>
+        <activity android:name=".ui.activity.DoctorListActivity"/>
+        <activity android:name=".ui.activity.DoctorListActivity2"/>
     </application>
 </manifest>
