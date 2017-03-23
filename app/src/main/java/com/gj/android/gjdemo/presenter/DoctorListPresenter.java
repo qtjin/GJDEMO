@@ -48,7 +48,6 @@ public class DoctorListPresenter extends BasePresenter {
                 }
                 @Override
                 public void onError(Throwable e) {
-                    super.onError(e);
                     baseActivity.errorData(1);
                 }
             };

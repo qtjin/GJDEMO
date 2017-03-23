@@ -1,11 +1,6 @@
 package com.gj.android.commonlibrary.util.rxjava;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
-
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
 
 import rx.Subscriber;
 
@@ -56,23 +51,22 @@ public abstract class ProgressSubscriber<T> extends Subscriber<T> implements Pro
         dismissProgressDialog();
     }
 
-    /**
-     * 对错误进行统一处理
-     * 隐藏ProgressDialog
-     * @param e
-     */
-    @Override
+//    /**
+//     * 对错误进行统一处理
+//     * 隐藏ProgressDialog
+//     * @param e
+//     */
+//    @Override
     public void onError(Throwable e) {
-        if (e instanceof SocketTimeoutException) {
-            Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
-        } else if (e instanceof ConnectException) {
-            Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
-        } else {
-            //Toast.makeText(context, "error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.d("ProgressSubscriber","error:" + e.getMessage());
-        }
+//        if (e instanceof SocketTimeoutException) {
+//            Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
+//        } else if (e instanceof ConnectException) {
+//            Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
+//        } else {
+//            //Toast.makeText(context, "error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+//            Log.d("ProgressSubscriber","error:" + e.getMessage());
+//        }
         dismissProgressDialog();
-
     }
 
     /**

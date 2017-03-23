@@ -4,19 +4,21 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.gj.android.bean.DoctorListBean;
-import com.gj.android.gjdemo.R;
-import com.gj.android.gjdemo.presenter.DoctorListPresenter;
 import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapter;
 import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapterHelper;
 import com.gj.android.commonlibrary.base.BaseAutoRecylerListActivity;
 import com.gj.android.commonlibrary.widget.LoadMoreRecyclerView;
+import com.gj.android.gjdemo.R;
+import com.gj.android.gjdemo.presenter.DoctorListPresenter;
 
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 医生列表
@@ -29,8 +31,11 @@ public class DoctorListActivity2 extends BaseAutoRecylerListActivity {
     @BindView(R.id.rv_doctor_list)
     LoadMoreRecyclerView mRecyclerView;
 
-    @BindView(R.id.iv_nodata)
-    ImageView ivNodata;
+    @BindView(R.id.ll_no_data)
+    LinearLayout ll_no_data;
+
+    @BindView(R.id.tv_refresh)
+    TextView tv_refresh;
 
     public List<DoctorListBean.DataBean.ListBean> mDatas;
 
@@ -62,7 +67,8 @@ public class DoctorListActivity2 extends BaseAutoRecylerListActivity {
     @Override
     public void pressData(Object obj) {
         mRefreshLayout.setVisibility(View.VISIBLE);
-        ivNodata.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+        ll_no_data.setVisibility(View.GONE);
 
         mRefreshLayout.setRefreshing(false);
             DoctorListBean.DataBean mDataBean = (DoctorListBean.DataBean) obj;
@@ -84,7 +90,7 @@ public class DoctorListActivity2 extends BaseAutoRecylerListActivity {
         mRefreshLayout.setRefreshing(false);
         mRefreshLayout.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.GONE);
-        ivNodata.setVisibility(View.VISIBLE);
+        ll_no_data.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -120,5 +126,12 @@ public class DoctorListActivity2 extends BaseAutoRecylerListActivity {
 //
 //            }
 //        });
+    }
+
+    @OnClick(R.id.tv_refresh)
+    public void onClick(View view){
+        loadType = LoadType.REFERSH;
+        curPage=1;
+        getModelData();
     }
 }

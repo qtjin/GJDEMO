@@ -50,7 +50,6 @@ public class DoctorListFragmentPresenter extends BaseFragmentPresenter {
 
                 @Override
                 public void onError(Throwable e) {
-                    super.onError(e);
                     baseFragment.errorData(1);
                 }
             };

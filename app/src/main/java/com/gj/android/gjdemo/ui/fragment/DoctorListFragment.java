@@ -3,7 +3,8 @@ package com.gj.android.gjdemo.ui.fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.gj.android.bean.DoctorListBean;
 import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapter;
@@ -16,6 +17,7 @@ import com.gj.android.gjdemo.presenter.DoctorListFragmentPresenter;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 医生列表
@@ -28,8 +30,11 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
     @BindView(R.id.rv_doctor_list)
     LoadMoreRecyclerView mRecyclerView;
 
-    @BindView(R.id.iv_nodata)
-    ImageView ivNodata;
+    @BindView(R.id.ll_no_data)
+    LinearLayout ll_no_data;
+
+    @BindView(R.id.tv_refresh)
+    TextView tv_refresh;
 
     public List<DoctorListBean.DataBean.ListBean> mDatas;
 
@@ -67,7 +72,8 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
     @Override
     public void pressData(Object obj) {
         mRefreshLayout.setVisibility(View.VISIBLE);
-        ivNodata.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+        ll_no_data.setVisibility(View.GONE);
 
         mRefreshLayout.setRefreshing(false);
         DoctorListBean.DataBean mDataBean = (DoctorListBean.DataBean) obj;
@@ -89,7 +95,7 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
         mRefreshLayout.setRefreshing(false);
         mRefreshLayout.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.GONE);
-        ivNodata.setVisibility(View.VISIBLE);
+        ll_no_data.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -128,5 +134,10 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
 //        });
     }
 
-
+    @OnClick(R.id.tv_refresh)
+    public void onClick(View view){
+        loadType = LoadType.REFERSH;
+        curPage=1;
+        getModelData();
+    }
 }

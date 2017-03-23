@@ -1,11 +1,6 @@
 package com.gj.android.commonlibrary.util.rxjava;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
-
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
 
 import rx.Subscriber;
 
@@ -40,22 +35,22 @@ public abstract class MySubscriber<T> extends Subscriber<T>{
     public void onCompleted() {
     }
 
-    /**
-     * 对错误进行统一处理
-     * 隐藏ProgressDialog
-     * @param e
-     */
-    @Override
-    public void onError(Throwable e) {
-        if (e instanceof SocketTimeoutException) {
-            Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
-        } else if (e instanceof ConnectException) {
-            Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
-        } else {
-            //Toast.makeText(context, "error: + e.getMessage(), Toast.LENGTH_SHORT).show();
-             Log.d("error:", e.getMessage());
-        }
-    }
+//    /**
+//     * 对错误进行统一处理
+//     * 隐藏ProgressDialog
+//     * @param e
+//     */
+//    @Override
+//    public void onError(Throwable e) {
+//        if (e instanceof SocketTimeoutException) {
+//            Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
+//        } else if (e instanceof ConnectException) {
+//            Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
+//        } else {
+//            //Toast.makeText(context, "error: + e.getMessage(), Toast.LENGTH_SHORT).show();
+//             Log.d("error:", e.getMessage());
+//        }
+//    }
 
     /**
      * 将onNext方法中的返回结果交给Activity或Fragment自己处理
