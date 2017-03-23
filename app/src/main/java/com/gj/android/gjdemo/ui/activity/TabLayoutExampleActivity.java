@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.gj.android.gjdemo.AppContext;
+import com.gj.android.gjdemo.MyApplication;
 import com.gj.android.gjdemo.R;
 import com.gj.android.gjdemo.widget.adapter.MyFragmentPagerAdapter;
 import com.gj.android.commonlibrary.base.BaseActivity;
@@ -52,7 +52,7 @@ public class TabLayoutExampleActivity extends BaseActivity {
             textView.setTextSize(14);
             textView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
             int width = textView.getMeasuredWidth();
-            int margin = (AppContext.SCREEN_WIDTH / 5 - width) / 2 - 30;
+            int margin = (MyApplication.SCREEN_WIDTH / 5 - width) / 2 - 30;
             layoutParams.setMargins(margin, 0, margin, 0);
         }
     }

@@ -6,15 +6,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapter;
+import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapterHelper;
+import com.gj.android.commonlibrary.base.BaseFragment;
 import com.gj.android.gjdemo.R;
+import com.gj.android.gjdemo.ui.activity.BannerActivity;
 import com.gj.android.gjdemo.ui.activity.DoctorListActivity;
 import com.gj.android.gjdemo.ui.activity.DoctorListActivity2;
 import com.gj.android.gjdemo.ui.activity.FileActivity;
 import com.gj.android.gjdemo.ui.activity.SQLiteActivity;
 import com.gj.android.gjdemo.ui.activity.TabLayoutExampleActivity;
-import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapter;
-import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapterHelper;
-import com.gj.android.commonlibrary.base.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,8 +78,9 @@ public class HomeFragment extends BaseFragment {
         mDatas.add("文件读写");
         mDatas.add("SQLite");
         mDatas.add("TabLayout");
-        mDatas.add("医生列表");
-        mDatas.add("医生列表2");
+        mDatas.add("医生列表Fragment实现");
+        mDatas.add("医生列表Activity实现");
+        mDatas.add("banner");
         adapter.replaceAll(mDatas);
         mRecyclerView.setAdapter(adapter);
     }
@@ -109,6 +111,9 @@ public class HomeFragment extends BaseFragment {
                 break;
             case 4:
                 readyGo(DoctorListActivity2.class);
+                break;
+            case 5:
+                readyGo(BannerActivity.class);
                 break;
         }
     }

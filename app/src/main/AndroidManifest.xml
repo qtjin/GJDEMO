@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gj.android.gjdemo">
 
@@ -69,13 +70,12 @@
     <uses-permission android:name="android.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.UNINSTALL_SHORTCUT" />
-
     <!--
         当用户安装或更新应用时，系统将授予应用所请求的属于 PROTECTION_NORMAL 的所有权限（安装时授权的一类基本权限）。这类权限包括
         只需要在AndroidManifest.xml中简单声明这些权限就好，安装时就授权。不需要每次使用时都检查权限，而且用户不能取消以上授权。
     -->
     <application
-        android:name=".AppContext"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
@@ -92,7 +92,9 @@
         <activity android:name=".ui.activity.FileActivity" />
         <activity android:name=".ui.activity.SQLiteActivity" />
         <activity android:name=".ui.activity.TabLayoutExampleActivity" />
-        <activity android:name=".ui.activity.DoctorListActivity"/>
-        <activity android:name=".ui.activity.DoctorListActivity2"/>
+        <activity android:name=".ui.activity.DoctorListActivity" />
+        <activity android:name=".ui.activity.DoctorListActivity2" />
+        <activity android:name=".ui.activity.BannerActivity"></activity>
     </application>
+
 </manifest>

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.util.DisplayMetrics;
 
-import com.gj.android.gjdemo.AppContext;
+import com.gj.android.gjdemo.MyApplication;
 import com.gj.android.gjdemo.R;
 import com.gj.android.gjdemo.widget.adapter.MainFragmentPagerAdapter;
 import com.gj.android.commonlibrary.base.BaseActivity;
@@ -39,9 +39,9 @@ public class MainActivity extends BaseActivity {
         DisplayMetrics metric = new DisplayMetrics();
         MainActivity.this.getWindowManager().getDefaultDisplay()
                 .getMetrics(metric);
-        AppContext.SCREEN_WIDTH = metric.widthPixels; // 屏幕宽度（像素）
-        AppContext.SCREEN_HEIGHT = metric.heightPixels; // 屏幕宽度（像素）
-        AppContext.DENSITY = metric.density; // 像素密度
+        MyApplication.SCREEN_WIDTH = metric.widthPixels; // 屏幕宽度（像素）
+        MyApplication.SCREEN_HEIGHT = metric.heightPixels; // 屏幕宽度（像素）
+        MyApplication.DENSITY = metric.density; // 像素密度
 
         hideTopLeft();
 
