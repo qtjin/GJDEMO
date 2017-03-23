@@ -1,9 +1,8 @@
 package com.gj.android.commonlibrary.util.rxjava;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
-
-import com.gj.android.commonlibrary.util.logger.AbLog;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -69,8 +68,8 @@ public abstract class ProgressSubscriber<T> extends Subscriber<T> implements Pro
         } else if (e instanceof ConnectException) {
             Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
-            AbLog.i("error:" + e.getMessage(), Toast.LENGTH_SHORT);
+            //Toast.makeText(context, "error:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.d("ProgressSubscriber","error:" + e.getMessage());
         }
         dismissProgressDialog();
 

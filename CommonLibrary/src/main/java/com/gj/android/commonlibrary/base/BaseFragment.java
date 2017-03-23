@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.gj.android.commonlibrary.R;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import rx.Subscription;
 
 
@@ -32,6 +33,8 @@ public abstract class BaseFragment extends Fragment {
 
     public abstract void pressData(Object obj);
 
+    public abstract void errorData(int type); //type 1无网络 2超时
+
     protected View mRootView;
 
     protected ImageView mIvLeft;
@@ -39,6 +42,8 @@ public abstract class BaseFragment extends Fragment {
     protected TextView mTvRight;
 
     protected TextView mTvTitle;
+
+    protected Unbinder unbinder;
 
     protected void onTopLeftOnClick(){ //左边返回键
         getActivity().finish();
@@ -63,8 +68,7 @@ public abstract class BaseFragment extends Fragment {
                 }
             });
         }
-
-        ButterKnife.bind(this, mRootView);
+        unbinder = ButterKnife.bind(this, mRootView);
         initListener();
         initData();
         return mRootView;
@@ -74,6 +78,9 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unsubscribe();
+        if(null!=unbinder){
+            unbinder.unbind();
+        }
         //ButterKnife.unbind(this);//解绑
     }
 

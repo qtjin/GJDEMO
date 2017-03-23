@@ -9,14 +9,28 @@
 
     <include layout="@layout/layout_topbar"/>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/refresh_layout"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <com.gj.android.commonlibrary.widget.LoadMoreRecyclerView
-        android:id="@+id/rv_doctor_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-    </android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_height="match_parent"
+        >
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.gj.android.commonlibrary.widget.LoadMoreRecyclerView
+                android:id="@+id/rv_doctor_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </android.support.v4.widget.SwipeRefreshLayout>
+        <ImageView
+            android:id="@+id/iv_nodata"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_no_data"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            />
+    </FrameLayout>
+
 </LinearLayout>

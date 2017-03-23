@@ -3,6 +3,8 @@ package com.gj.android.gjdemo.ui.activity;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.gj.android.bean.DoctorListBean;
 import com.gj.android.gjdemo.R;
@@ -26,6 +28,9 @@ public class DoctorListActivity2 extends BaseAutoRecylerListActivity {
 
     @BindView(R.id.rv_doctor_list)
     LoadMoreRecyclerView mRecyclerView;
+
+    @BindView(R.id.iv_nodata)
+    ImageView ivNodata;
 
     public List<DoctorListBean.DataBean.ListBean> mDatas;
 
@@ -56,6 +61,9 @@ public class DoctorListActivity2 extends BaseAutoRecylerListActivity {
 
     @Override
     public void pressData(Object obj) {
+        mRefreshLayout.setVisibility(View.VISIBLE);
+        ivNodata.setVisibility(View.GONE);
+
         mRefreshLayout.setRefreshing(false);
             DoctorListBean.DataBean mDataBean = (DoctorListBean.DataBean) obj;
             if(null!=mDataBean&&null!=mDataBean.getList()){
@@ -69,6 +77,14 @@ public class DoctorListActivity2 extends BaseAutoRecylerListActivity {
                     mRecyclerView.setResultSize(mDatas.size());
                 }
         }
+    }
+
+    @Override
+    public void errorData(int type) {
+        mRefreshLayout.setRefreshing(false);
+        mRefreshLayout.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.GONE);
+        ivNodata.setVisibility(View.VISIBLE);
     }
 
     @Override

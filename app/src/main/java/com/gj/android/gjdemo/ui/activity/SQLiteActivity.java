@@ -107,6 +107,11 @@ public class SQLiteActivity extends BaseActivity {
     }
 
     @Override
+    public void errorData(int type) {
+
+    }
+
+    @Override
     protected void initData() {
         setTitle("SQLite数据库");
     }

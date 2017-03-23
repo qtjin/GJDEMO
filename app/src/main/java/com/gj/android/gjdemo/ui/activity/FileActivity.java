@@ -149,6 +149,11 @@ public class FileActivity extends BaseActivity {
     }
 
     @Override
+    public void errorData(int type) {
+
+    }
+
+    @Override
     protected void initData() {
         setTitle("文件处理");
     }

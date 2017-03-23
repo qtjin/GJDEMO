@@ -34,12 +34,22 @@ public class DoctorListPresenter extends BasePresenter {
                 public void onNext(DoctorListBean.DataBean DataBean) {
                     baseActivity.pressData(DataBean); //刷新数据
                 }
+                 @Override
+                 public void onError(Throwable e) {
+                     super.onError(e);
+                     baseActivity.errorData(1);
+                 }
             };
         }else{
             subscriber = new MySubscriber<DoctorListBean.DataBean>(baseActivity) { //下拉刷新上拉加载更多自带进度条
                 @Override
                 public void onNext(DoctorListBean.DataBean DataBean) {
                     baseActivity.pressData(DataBean); //刷新数据
+                }
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
+                    baseActivity.errorData(1);
                 }
             };
         }

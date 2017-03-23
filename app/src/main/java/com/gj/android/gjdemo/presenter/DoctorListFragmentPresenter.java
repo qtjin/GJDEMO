@@ -34,12 +34,24 @@ public class DoctorListFragmentPresenter extends BaseFragmentPresenter {
                 public void onNext(DoctorListBean.DataBean DataBean) {
                     baseFragment.pressData(DataBean); //刷新数据
                 }
-            };
+
+                 @Override
+                 public void onError(Throwable e) {
+                     super.onError(e);
+                     baseFragment.errorData(1);
+                 }
+             };
         }else{
             subscriber = new MySubscriber<DoctorListBean.DataBean>(baseFragment.getActivity()) { //下拉刷新上拉加载更多自带进度条
                 @Override
                 public void onNext(DoctorListBean.DataBean DataBean) {
                     baseFragment.pressData(DataBean); //刷新数据
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
+                    baseFragment.errorData(1);
                 }
             };
         }

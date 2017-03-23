@@ -2,6 +2,8 @@ package com.gj.android.gjdemo.ui.fragment;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.gj.android.bean.DoctorListBean;
 import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapter;
@@ -26,6 +28,9 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
     @BindView(R.id.rv_doctor_list)
     LoadMoreRecyclerView mRecyclerView;
 
+    @BindView(R.id.iv_nodata)
+    ImageView ivNodata;
+
     public List<DoctorListBean.DataBean.ListBean> mDatas;
 
     private CommonRecyclerAdapter<DoctorListBean.DataBean.ListBean> mAdapter;
@@ -35,10 +40,11 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
 
     /**
      * Fragment内部实例化，封装起来
+     *
      * @return
      */
-    public static DoctorListFragment newInstance(){
-        return  new DoctorListFragment();
+    public static DoctorListFragment newInstance() {
+        return new DoctorListFragment();
     }
 
 
@@ -60,19 +66,30 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
 
     @Override
     public void pressData(Object obj) {
+        mRefreshLayout.setVisibility(View.VISIBLE);
+        ivNodata.setVisibility(View.GONE);
+
         mRefreshLayout.setRefreshing(false);
-            DoctorListBean.DataBean mDataBean = (DoctorListBean.DataBean) obj;
-            if(null!=mDataBean&&null!=mDataBean.getList()){
-                mDatas = mDataBean.getList();
-                if(null!=mDatas){
-                    if(loadType==LoadType.LOADMORE){
-                        mAdapter.addAll(mDatas);
-                    }else{
-                        mAdapter.replaceAll(mDatas);
-                    }
-                    mRecyclerView.setResultSize(mDatas.size());
+        DoctorListBean.DataBean mDataBean = (DoctorListBean.DataBean) obj;
+        if (null != mDataBean && null != mDataBean.getList()) {
+            mDatas = mDataBean.getList();
+            if (null != mDatas) {
+                if (loadType == LoadType.LOADMORE) {
+                    mAdapter.addAll(mDatas);
+                } else {
+                    mAdapter.replaceAll(mDatas);
                 }
+                mRecyclerView.setResultSize(mDatas.size());
+            }
         }
+    }
+
+    @Override
+    public void errorData(int type) {
+        mRefreshLayout.setRefreshing(false);
+        mRefreshLayout.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.GONE);
+        ivNodata.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -82,19 +99,20 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
 
     @Override
     protected void getModelData() {
-        if(null==mPresenter){
+        if (null == mPresenter) {
             mPresenter = new DoctorListFragmentPresenter(this);
         }
-        mPresenter.getDoctorList("1","1","","",String.valueOf(curPage));
+        mPresenter.getDoctorList("1", "1", "", "", String.valueOf(curPage));
     }
 
     @Override
     protected void initAdapter() {
-        if(null==mAdapter){
+        if (null == mAdapter) {
             mAdapter = new CommonRecyclerAdapter<DoctorListBean.DataBean.ListBean>(getActivity(), mDatas, R.layout.item_main) {
                 @Override
                 public void convert(CommonRecyclerAdapterHelper helper, DoctorListBean.DataBean.ListBean bean) {
                     helper.setText(R.id.tv_title, bean.getName());
+                    helper.setImageUrl(R.id.iv_img, bean.getHeadImgUrl());
                 }
             };
         }
@@ -109,4 +127,6 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
 //            }
 //        });
     }
+
+
 }

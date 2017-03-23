@@ -70,6 +70,11 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    public void errorData(int type) {
+
+    }
+
+    @Override
     protected void initData() {
         setTitle("GJDemo2017");
 

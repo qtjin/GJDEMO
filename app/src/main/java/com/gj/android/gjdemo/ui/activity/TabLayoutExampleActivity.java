@@ -63,6 +63,11 @@ public class TabLayoutExampleActivity extends BaseActivity {
     }
 
     @Override
+    public void errorData(int type) {
+
+    }
+
+    @Override
     protected void initData() {
         setTitle("TabLayoutExample");
     }

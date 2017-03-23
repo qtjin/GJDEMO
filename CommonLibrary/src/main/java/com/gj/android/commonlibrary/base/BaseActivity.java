@@ -12,6 +12,7 @@ import com.gj.android.commonlibrary.R;
 import com.gj.android.commonlibrary.util.AbAppManager;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import rx.Subscription;
 
 /**
@@ -35,6 +36,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public abstract void pressData(Object obj);
 
+    public abstract void errorData(int type); //type 1无网络 2超时
+
     protected abstract void initData();
 
     protected ImageView mIvLeft;
@@ -42,6 +45,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected TextView mTvRight;
 
     protected TextView mTvTitle;
+
+    protected Unbinder unbinder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +71,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 }
             });
         }
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         AbAppManager.getAbAppManager().addActivity(this);
         initListener();
         initData();
@@ -76,6 +81,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unsubscribe();
+        if(null!=unbinder){
+            unbinder.unbind();
+        }
         //ButterKnife.unbind(this);
     }
 

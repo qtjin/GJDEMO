@@ -61,5 +61,10 @@ public class MyFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void errorData(int type) {
+
+    }
+
 
 }

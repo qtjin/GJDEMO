@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -17,7 +18,6 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.gj.android.commonlibrary.util.logger.AbLog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -106,7 +106,7 @@ public class CommonRecyclerAdapterHelper {
         try {
             ImageLoader.getInstance().displayImage(imageUrl, view ,options);
         }catch (Exception ImageLoaderException){
-            AbLog.i("ImageLoaderException"+ImageLoaderException.getMessage());
+            Log.d("ImageLoaderException",ImageLoaderException.getMessage());
         }
         return this;
     }

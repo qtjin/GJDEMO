@@ -88,6 +88,11 @@ public class HomeFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void errorData(int type) {
+
+    }
+
     private void go(int position){
         switch (position) {
             case 0:
