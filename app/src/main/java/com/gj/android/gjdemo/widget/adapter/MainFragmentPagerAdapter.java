@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.gj.android.gjdemo.R;
 import com.gj.android.gjdemo.ui.fragment.HomeFragment;
 import com.gj.android.gjdemo.ui.fragment.MyFragment;
+import com.gj.android.gjdemo.ui.fragment.OneRecycleFragment;
 
 /**
  * Created by guojing on 16/7/22.
@@ -23,7 +24,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     private Context context;
 
     private HomeFragment myFragment1; //fragment
-    private MyFragment myFragment2; //fragment
+    private OneRecycleFragment myFragment2; //fragment
     private MyFragment myFragment3; //fragment
     private MyFragment myFragment4; //fragment
     private MyFragment myFragment5; //fragment
@@ -49,10 +50,8 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
         Bundle args = new Bundle();
         args.putInt(ARGS_PAGE,position);
         if (position == 1) {
-            if(null==myFragment2){
-                myFragment2 = new MyFragment();
-                myFragment2.setArguments(args);
-            }
+            myFragment2 = OneRecycleFragment.newInstance();
+            myFragment2.setArguments(args);
             return myFragment2;
         } else if (position == 2) {
             if(null==myFragment3){
