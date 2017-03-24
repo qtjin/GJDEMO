@@ -23,7 +23,7 @@ public class SpacesItemDecoration  extends RecyclerView.ItemDecoration {
 
         //不是第一个的格子都设一个左边和底部的间距
         outRect.left = space;
-        //outRect.bottom = space;
+        outRect.bottom = space;
 
         int position = parent.getChildLayoutPosition(view);
 
@@ -51,7 +51,7 @@ public class SpacesItemDecoration  extends RecyclerView.ItemDecoration {
         }else if (position == 19){
             outRect.left = 0; //放置title
         }else {
-            if ((parent.getChildLayoutPosition(view)-18)%2==0) {
+            if ((parent.getChildLayoutPosition(view)-19)%2==0) {
                 outRect.right = space;
             }
         }

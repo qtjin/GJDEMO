@@ -90,8 +90,10 @@ public class OneRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             return TYPE_TYPE4;
         }else if (position == 19){
             return TYPE_TYPE3_HEAD;
-        }else {
+        }else if(position > 19){
             return TYPE_TYPE2;
+        }else{
+            return -1;
         }
     }
 
@@ -176,7 +178,25 @@ public class OneRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         //String img = "http://pica.nipic.com/2007-10-09/200710994020530_2.jpg";
         //x.image().bind(holder.item_img_type2, img,new ImageOptions.Builder().build(),new CustomBitmapLoadCallBack(holder.item_img_type2));
         String url = "http://fdfs.xmcdn.com/group20/M09/E5/EB/wKgJJ1fO6sbjNgT-AAE04GeNhPI824_mobile_x_large.jpg";
-        ImageLoader.getInstance().displayImage(url,holder.item_img_type2);
+        final ImageView imgView = holder.item_img_type2;
+        ImageLoader.getInstance().displayImage(url, imgView);
+//        ViewGroup.LayoutParams params = holder.itemView.getLayoutParams();
+//        Log.d("bindType2: ","------------------------------------------------------");
+//        Log.d("bindType2: ","holder.itemView.getWidth():"+holder.itemView.getWidth());
+//        Log.d("bindType2: ","params width:"+params.width);
+//        Log.d("bindType2: ","params height:"+params.height);
+//        Log.d("bindType2: ","------------------------------------------------------");
+//
+//        if (2<=position && position <= 7){
+//            params.height = params.width/2 - 3 * R.dimen.dp_6;
+//        }else if (9<=position && position <= 14){
+//            params.height = params.width/3 - 4 * R.dimen.dp_6;
+//        }else if(position>19){
+//            params.height = params.width/2 - 3 * R.dimen.dp_6;
+//        }
+//
+//        holder.itemView.setLayoutParams(params);
+
     }
 
 
