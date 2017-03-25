@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.gj.android.commonlibrary.base.BaseFragment;
+import com.gj.android.commonlibrary.util.AbDensityUtils;
 import com.gj.android.gjdemo.R;
 import com.gj.android.gjdemo.util.SpacesItemDecoration;
 import com.gj.android.gjdemo.widget.adapter.OneRecycleAdapter;
@@ -54,7 +55,7 @@ public class OneRecycleFragment extends BaseFragment implements SwipeRefreshLayo
     private void initBase() {
         layRefresh.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
         layRefresh.setOnRefreshListener(this);
-        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.dp_6);
+        int spacingInPixels = AbDensityUtils.dip2px(getActivity(),3);
         mRecyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels)); //列间距
 
 //        mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext(), LinearLayoutManager.VERTICAL, false));

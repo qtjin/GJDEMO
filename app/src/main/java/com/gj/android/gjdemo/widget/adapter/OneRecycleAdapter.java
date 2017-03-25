@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.gj.android.commonlibrary.util.AbDensityUtils;
 import com.gj.android.commonlibrary.widget.GlideImageLoader;
+import com.gj.android.gjdemo.MyApplication;
 import com.gj.android.gjdemo.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.youth.banner.Banner;
@@ -175,27 +177,21 @@ public class OneRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private void bindType2(HolderType2 holder, int position){
-        //String img = "http://pica.nipic.com/2007-10-09/200710994020530_2.jpg";
-        //x.image().bind(holder.item_img_type2, img,new ImageOptions.Builder().build(),new CustomBitmapLoadCallBack(holder.item_img_type2));
         String url = "http://fdfs.xmcdn.com/group20/M09/E5/EB/wKgJJ1fO6sbjNgT-AAE04GeNhPI824_mobile_x_large.jpg";
         final ImageView imgView = holder.item_img_type2;
+
+        ViewGroup.LayoutParams params = imgView.getLayoutParams();
+
+        if (2<=position && position <= 7){
+            params.height = MyApplication.SCREEN_WIDTH/2 - AbDensityUtils.dip2px(context,9);
+        }else if (9<=position && position <= 14){
+            params.height = MyApplication.SCREEN_WIDTH/3 - AbDensityUtils.dip2px(context,12);
+        }else if(position>19){
+            params.height = MyApplication.SCREEN_WIDTH/2 - AbDensityUtils.dip2px(context,9);
+        }
+
+        imgView.setLayoutParams(params);
         ImageLoader.getInstance().displayImage(url, imgView);
-//        ViewGroup.LayoutParams params = holder.itemView.getLayoutParams();
-//        Log.d("bindType2: ","------------------------------------------------------");
-//        Log.d("bindType2: ","holder.itemView.getWidth():"+holder.itemView.getWidth());
-//        Log.d("bindType2: ","params width:"+params.width);
-//        Log.d("bindType2: ","params height:"+params.height);
-//        Log.d("bindType2: ","------------------------------------------------------");
-//
-//        if (2<=position && position <= 7){
-//            params.height = params.width/2 - 3 * R.dimen.dp_6;
-//        }else if (9<=position && position <= 14){
-//            params.height = params.width/3 - 4 * R.dimen.dp_6;
-//        }else if(position>19){
-//            params.height = params.width/2 - 3 * R.dimen.dp_6;
-//        }
-//
-//        holder.itemView.setLayoutParams(params);
 
     }
 
