@@ -10,7 +10,7 @@ import android.content.Context;
  */
 public class AppConfig {
 
-    public static String APP_NAME = "EasyFrame";
+    public static String APP_NAME = "GJDemo";
 
     public static boolean IS_DEBUG = true;
 

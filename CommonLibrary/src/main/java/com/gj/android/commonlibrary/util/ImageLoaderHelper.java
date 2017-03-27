@@ -22,6 +22,7 @@ import android.graphics.drawable.Drawable;
 
 import com.gj.android.commonlibrary.R;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -234,14 +235,14 @@ public class ImageLoaderHelper {
 //            cacheDir = StorageUtils.getCacheDirectory(mContext);//默认缓存目录，查看源码了解储存在哪
         }
         builder.diskCache(new UnlimitedDiskCache(cacheDir));//自定义缓存路径
-//        builder.diskCacheSize(512 * 1024 * 1024);//缓存的文件大小
-//        builder.diskCacheFileCount(1000);//缓存的文件数量
-//        builder.diskCacheFileNameGenerator(new Md5FileNameGenerator());//将保存的时候的URI名称用MD5加密
-//        builder.diskCacheExtraOptions(720, 1280, null);// 设置缓存的详细信息，最好不要设置这个
+        builder.diskCacheSize(512 * 1024 * 1024);//缓存的文件大小
+        builder.diskCacheFileCount(1000);//缓存的文件数量
+        //builder.diskCacheFileNameGenerator(new Md5FileNameGenerator());//将保存的时候的URI名称用MD5加密
+        //builder.diskCacheExtraOptions(720, 1280, null);// 设置缓存的详细信息，最好不要设置这个
 
         // Memory
-//        builder.memoryCache(new LruMemoryCache(2 * 1024 * 1024));//你可以通过自己的内存缓存实现
-//        builder.memoryCacheSize(2 * 1024 * 1024);//内存缓存大小
+        builder.memoryCache(new LruMemoryCache(2 * 1024 * 1024));//你可以通过自己的内存缓存实现
+        builder.memoryCacheSize(2 * 1024 * 1024);//内存缓存大小
         builder.memoryCacheSizePercentage(15);//内存缓存百分比大小
         builder.denyCacheImageMultipleSizesInMemory();
         builder.memoryCacheExtraOptions(720, 1280);//保存的每个缓存文件的最大长宽
