@@ -21,7 +21,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 import com.gj.android.commonlibrary.R;
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
+import com.nostra13.universalimageloader.cache.disc.impl.ext.LruDiskCache;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -222,9 +223,38 @@ public class ImageLoaderHelper {
         return getImageLoaderConfiguration(null, displayImageOptions);
     }
 
+
+    /**
+     *   1.只使用的是强引用缓存
+         LruMemoryCache（这个类就是这个开源框架默认的内存缓存类，缓存的是bitmap的强引用，下面我会从源码上面分析这个类）
+         2.使用强引用和弱引用相结合的缓存有
+         UsingFreqLimitedMemoryCache（如果缓存的图片总量超过限定值，先删除使用频率最小的bitmap）
+         LRULimitedMemoryCache（这个也是使用的lru算法，和LruMemoryCache不同的是，他缓存的是bitmap的弱引用）
+         FIFOLimitedMemoryCache（先进先出的缓存策略，当超过设定值，先删除最先加入缓存的bitmap）
+         LargestLimitedMemoryCache(当超过缓存限定值，先删除最大的bitmap对象)
+         LimitedAgeMemoryCache（当 bitmap加入缓存中的时间超过我们设定的值，将其删除）
+         3.只使用弱引用缓存
+         WeakMemoryCache（这个类缓存bitmap的总大小没有限制，唯一不足的地方就是不稳定，缓存的图片容易被回收掉）
+     *
+     *
+     *   FileCountLimitedDiscCache（可以设定缓存图片的个数，当超过设定值，删除掉最先加入到硬盘的文件）
+         LimitedAgeDiscCache（设定文件存活的最长时间，当超过这个值，就删除该文件）
+         TotalSizeLimitedDiscCache（设定缓存bitmap的最大值，当超过这个值，删除最先加入到硬盘的文件）
+         UnlimitedDiscCache（这个缓存类没有任何的限制）
+     * @param filePath
+     * @param displayImageOptions
+     * @return
+     */
     public ImageLoaderConfiguration getImageLoaderConfiguration(String filePath, DisplayImageOptions displayImageOptions) {
 
         ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(mContext);
+
+        // Memory
+        builder.memoryCache(new LruMemoryCache(2 * 1024 * 1024));//你可以通过自己的内存缓存实现
+        builder.memoryCacheSize(2 * 1024 * 1024);//内存缓存大小
+        builder.memoryCacheSizePercentage(15);//内存缓存百分比大小
+        builder.denyCacheImageMultipleSizesInMemory();
+        builder.memoryCacheExtraOptions(720, 1280);//保存的每个缓存文件的最大长宽
 
         // Disk
         File cacheDir;
@@ -234,18 +264,24 @@ public class ImageLoaderHelper {
             cacheDir = StorageUtils.getOwnCacheDirectory(mContext, filePath);//自定义缓存目录
 //            cacheDir = StorageUtils.getCacheDirectory(mContext);//默认缓存目录，查看源码了解储存在哪
         }
-        builder.diskCache(new UnlimitedDiskCache(cacheDir));//自定义缓存路径
-        builder.diskCacheSize(512 * 1024 * 1024);//缓存的文件大小
+        //builder.diskCache(new UnlimitedDiskCache(cacheDir));//自定义缓存路径
+        /**************************************************************/
+        LruDiskCache mLruDiskCache = null;
+        try {
+            mLruDiskCache = new LruDiskCache(cacheDir, new Md5FileNameGenerator(), 2* 1024 * 1024);
+        } catch (Exception e) {
+            // TODO: handle exception
+            //Log.e("Waring", "SD卡缓存失败");
+        }
+        finally{
+            //Log.d("Waring", "SD卡缓存初建立");
+        }
+        builder.diskCache(mLruDiskCache);//自定义缓存路径
+        /**************************************************************/
+        //builder.diskCacheSize(512 * 1024 * 1024);//缓存的文件大小
         builder.diskCacheFileCount(1000);//缓存的文件数量
         //builder.diskCacheFileNameGenerator(new Md5FileNameGenerator());//将保存的时候的URI名称用MD5加密
         //builder.diskCacheExtraOptions(720, 1280, null);// 设置缓存的详细信息，最好不要设置这个
-
-        // Memory
-        builder.memoryCache(new LruMemoryCache(2 * 1024 * 1024));//你可以通过自己的内存缓存实现
-        builder.memoryCacheSize(2 * 1024 * 1024);//内存缓存大小
-        builder.memoryCacheSizePercentage(15);//内存缓存百分比大小
-        builder.denyCacheImageMultipleSizesInMemory();
-        builder.memoryCacheExtraOptions(720, 1280);//保存的每个缓存文件的最大长宽
 
         // Thread
         builder.threadPoolSize(ImageLoaderConfiguration.Builder.DEFAULT_THREAD_POOL_SIZE);//线程池内加载的数量

@@ -191,6 +191,7 @@ public class OneRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         imgView.setLayoutParams(params);
+        ImageLoader.getInstance().getDiskCache().getDirectory();
         ImageLoader.getInstance().displayImage(url, imgView);
 
     }
