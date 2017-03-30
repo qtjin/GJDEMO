@@ -1,6 +1,7 @@
 package com.gj.android.commonlibrary.util;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * Author:      qiyunfeng
@@ -16,7 +17,12 @@ public class AbGsonUtil {
      * json转换成Bean
      */
     public static <T> T json2Bean(String json, Class<T> clazz) {
-        T t = gson.fromJson(json, clazz);
+        T t = null;
+        try {
+            t = gson.fromJson(json, clazz);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+        }
         return t;
     }
 

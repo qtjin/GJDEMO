@@ -2,10 +2,13 @@ package com.gj.android.commonlibrary.api;
 
 
 import com.gj.android.bean.BaseBean;
+import com.gj.android.bean.DepartBean;
 import com.gj.android.bean.DoctorListBean;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -21,9 +24,21 @@ public interface Api {
     * 我的动态列表
     */
    @FormUrlEncoded
-   @POST("mobile/wys/getDoctorListV29.json")
+   @POST(URLs.METHOD_DOCTOR_LIST)
+   @Headers("Cache-Control: public, max-age=60")
    Observable<BaseBean<DoctorListBean.DataBean>> getDoctorList(@Field("seqType") String seqType, @Field("drType") String drType
            , @Field("SearchStr") String SearchStr, @Field("sectionsName") String sectionsName, @Field("curPage") String curPage);
+
+   @GET(URLs.DEPART_LIST)
+   @Headers("Cache-Control: public, max-age=60")
+   Observable<DepartBean> getDepartList();
+
+
+
+
+//    @GET("api/v1/designers/")
+//    @Headers("Cache-Control: public, max-age=60")
+//    Observable<JSONObject> getDesigners(@Query("page") int page, @Query("page_size") int pageSize);
 
 //    /***********************************  朋友圈  ***********************************/
 //    /**

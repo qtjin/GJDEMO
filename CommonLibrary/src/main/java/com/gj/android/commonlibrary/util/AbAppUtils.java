@@ -49,7 +49,21 @@ import java.util.regex.Pattern;
  * @date：2011-11-10 下午11:52:13
  */
 public class AbAppUtils {
-	
+
+	private static Context mContext;
+
+	private static class AbAppUtilsHolder{
+		private static final AbAppUtils mUtils = new AbAppUtils();
+	}
+
+	public static AbAppUtils init(Context context){
+		mContext = context;
+		return AbAppUtilsHolder.mUtils;
+	}
+
+	public static Context getContext(){
+		return mContext;
+	}
 
 	/**
 	 * 描述：打开并安装文件.

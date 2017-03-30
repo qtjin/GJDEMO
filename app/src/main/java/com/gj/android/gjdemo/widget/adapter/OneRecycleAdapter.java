@@ -9,11 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.gj.android.commonlibrary.util.AbDensityUtils;
 import com.gj.android.commonlibrary.widget.GlideImageLoader;
 import com.gj.android.gjdemo.MyApplication;
 import com.gj.android.gjdemo.R;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -191,8 +191,10 @@ public class OneRecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         imgView.setLayoutParams(params);
-        ImageLoader.getInstance().getDiskCache().getDirectory();
-        ImageLoader.getInstance().displayImage(url, imgView);
+//        ImageLoader.getInstance().displayImage(url, imgView);
+
+        Glide.with(context).load(url).placeholder(R.drawable.ic_picture_loading)
+                .error(R.drawable.ic_picture_loadfailed).into(imgView);
 
     }
 

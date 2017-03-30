@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gj.android.gjdemo.R;
+import com.gj.android.gjdemo.ui.fragment.DepartListFragment;
+import com.gj.android.gjdemo.ui.fragment.DoctorListFragment;
 import com.gj.android.gjdemo.ui.fragment.HomeFragment;
 import com.gj.android.gjdemo.ui.fragment.MyFragment;
 import com.gj.android.gjdemo.ui.fragment.OneRecycleFragment;
@@ -25,8 +27,8 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private HomeFragment myFragment1; //fragment
     private OneRecycleFragment myFragment2; //fragment
-    private MyFragment myFragment3; //fragment
-    private MyFragment myFragment4; //fragment
+    private DoctorListFragment myFragment3; //fragment
+    private DepartListFragment myFragment4; //fragment
     private MyFragment myFragment5; //fragment
 
     private static final String[] mTitles = new String[]{"首页","档案", "医生","购药", "我的"};
@@ -55,14 +57,14 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
             return myFragment2;
         } else if (position == 2) {
             if(null==myFragment3){
-                myFragment3 = new MyFragment();
-                myFragment3.setArguments(args);
+                myFragment3 = DoctorListFragment.newInstance(1);
+                //myFragment3.setArguments(args);
             }
             return myFragment3;
         }else if (position==3){
             if(null==myFragment4){
-                myFragment4 = new MyFragment();
-                myFragment4.setArguments(args);
+                myFragment4 = DepartListFragment.newInstance(2);
+                //myFragment4.setArguments(args);
             }
             return myFragment4;
         }else if (position==4){

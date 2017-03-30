@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity {
 
         mMainFragmentPagerAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager(),this);
         mViewPager.setAdapter(mMainFragmentPagerAdapter);
-
+        mViewPager.setCurrentItem(2);
         mTabLayout.setupWithViewPager(mViewPager);
 
         for (int i = 0; i < mTabLayout.getTabCount(); i++) {

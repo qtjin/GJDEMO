@@ -9,13 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.gj.android.bean.DoctorListBean;
+import com.gj.android.bean.DepartBean;
 import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapter;
 import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapterHelper;
 import com.gj.android.commonlibrary.base.BaseAutoRecylerListFragment;
 import com.gj.android.commonlibrary.widget.LoadMoreRecyclerView;
 import com.gj.android.gjdemo.R;
-import com.gj.android.gjdemo.presenter.DoctorListFragmentPresenter;
+import com.gj.android.gjdemo.presenter.DepartListFragmentPresenter;
 
 import java.util.List;
 
@@ -23,9 +23,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * 医生列表
+ * 类型列表
  */
-public class DoctorListFragment extends BaseAutoRecylerListFragment {
+public class DepartListFragment extends BaseAutoRecylerListFragment {
 
     @BindView(R.id.refresh_layout)
     SwipeRefreshLayout mRefreshLayout;
@@ -39,11 +39,11 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
     @BindView(R.id.tv_refresh)
     TextView tv_refresh;
 
-    public List<DoctorListBean.DataBean.ListBean> mDatas;
+    public List<DepartBean.DataBean> mDatas;
 
-    private CommonRecyclerAdapter<DoctorListBean.DataBean.ListBean> mAdapter;
+    private CommonRecyclerAdapter<DepartBean.DataBean> mAdapter;
 
-    private DoctorListFragmentPresenter mPresenter;
+    private DepartListFragmentPresenter mPresenter;
 
 
     /**
@@ -51,12 +51,12 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
      *
      * @return
      */
-    public static DoctorListFragment newInstance(int pageStr) {
-        DoctorListFragment doctorListFragment =  new DoctorListFragment();
+    public static DepartListFragment newInstance(int pageStr) {
+        DepartListFragment departListFragment =  new DepartListFragment();
         Bundle args = new Bundle();
         args.putInt("pageStr",pageStr);
-        doctorListFragment.setArguments(args);
-        return doctorListFragment;
+        departListFragment.setArguments(args);
+        return departListFragment;
     }
 
 
@@ -83,9 +83,9 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
             mRecyclerView.setVisibility(View.VISIBLE);
             ll_no_data.setVisibility(View.GONE);
             mRefreshLayout.setRefreshing(false);
-            DoctorListBean.DataBean mDataBean = (DoctorListBean.DataBean) obj;
-            if (null != mDataBean && null != mDataBean.getList()) {
-                mDatas = mDataBean.getList();
+            DepartBean mDataBean = (DepartBean) obj;
+            if (null != mDataBean && null != mDataBean.data) {
+                mDatas = mDataBean.data;
                 if (null != mDatas) {
                     if (loadType == LoadType.LOADMORE) {
                         mAdapter.addAll(mDatas);
@@ -106,9 +106,9 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
             mRecyclerView.setVisibility(View.VISIBLE);
             ll_no_data.setVisibility(View.GONE);
             mRefreshLayout.setRefreshing(false);
-            DoctorListBean.DataBean mDataBean = (DoctorListBean.DataBean) obj;
-            if (null != mDataBean && null != mDataBean.getList()) {
-                mDatas = mDataBean.getList();
+            DepartBean mDataBean = (DepartBean) obj;
+            if (null != mDataBean && null != mDataBean.data) {
+                mDatas = mDataBean.data;
                 if (null != mDatas) {
                     mAdapter.replaceAll(mDatas);
                     mRecyclerView.setResultSize(mDatas.size());
@@ -130,27 +130,27 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
 
     @Override
     protected void initData() {
-        setTitle("医生列表Fragment");
+        setTitle("科室列表Fragment");
     }
 
     @Override
     protected void getModelData() {
         curPage = (int) getArguments().get("pageStr");
         if (null == mPresenter) {
-            mPresenter = new DoctorListFragmentPresenter(this);
+            mPresenter = new DepartListFragmentPresenter(this);
         }
-        mPresenter.getDoctorList("1", "1", "", "", String.valueOf(curPage+1));
+        mPresenter.getDepartList();
     }
 
     @Override
     protected void initAdapter() {
         if (null == mAdapter) {
-            mAdapter = new CommonRecyclerAdapter<DoctorListBean.DataBean.ListBean>(getActivity(), mDatas, R.layout.item_main) {
+            mAdapter = new CommonRecyclerAdapter<DepartBean.DataBean>(getActivity(), mDatas, R.layout.item_main) {
                 @Override
-                public void convert(CommonRecyclerAdapterHelper helper, DoctorListBean.DataBean.ListBean bean) {
-                    helper.setText(R.id.tv_title, bean.getName());
+                public void convert(CommonRecyclerAdapterHelper helper, DepartBean.DataBean bean) {
+                    helper.setText(R.id.tv_title, bean.departName);
                     //helper.setImageUrl(R.id.iv_img, bean.getHeadImgUrl());
-                    Glide.with(getActivity()).load(bean.getHeadImgUrl()).placeholder(R.drawable.ic_picture_loading)
+                    Glide.with(getActivity()).load(bean.imgUrl).placeholder(R.drawable.ic_picture_loading)
                             .error(R.drawable.ic_picture_loadfailed).into((ImageView) helper.getView(R.id.iv_img));
                 }
             };

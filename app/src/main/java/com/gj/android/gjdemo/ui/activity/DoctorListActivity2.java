@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.gj.android.bean.DoctorListBean;
 import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapter;
 import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapterHelper;
@@ -113,6 +115,8 @@ public class DoctorListActivity2 extends BaseAutoRecylerListActivity {
                 @Override
                 public void convert(CommonRecyclerAdapterHelper helper, DoctorListBean.DataBean.ListBean bean) {
                     helper.setText(R.id.tv_title, bean.getName());
+                    Glide.with(DoctorListActivity2.this).load(bean.getHeadImgUrl()).placeholder(R.drawable.ic_picture_loading)
+                            .error(R.drawable.ic_picture_loadfailed).into((ImageView) helper.getView(R.id.iv_img));
                 }
             };
         }
