@@ -12,6 +12,8 @@ import com.gj.android.bean.DoctorListBean;
 import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapter;
 import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapterHelper;
 import com.gj.android.commonlibrary.base.BaseAutoRecylerListFragment;
+import com.gj.android.commonlibrary.util.AbAppUtils;
+import com.gj.android.commonlibrary.util.ToastUtils;
 import com.gj.android.commonlibrary.widget.LoadMoreRecyclerView;
 import com.gj.android.gjdemo.R;
 import com.gj.android.gjdemo.presenter.DoctorListFragmentPresenter;
@@ -135,10 +137,16 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
 
     @Override
     protected void getModelData() {
-        if (null == mPresenter) {
-            mPresenter = new DoctorListFragmentPresenter(this);
+        if(!AbAppUtils.isNetworkAvailable(getActivity())&&loadType!=loadType.INIT) {
+            mRefreshLayout.setRefreshing(false);
+            curPage=1;
+            ToastUtils.show(getActivity(),"请开启网络");
+        }else{
+            if (null == mPresenter) {
+                mPresenter = new DoctorListFragmentPresenter(this);
+            }
+            mPresenter.getDoctorList("1", "1", "", "", String.valueOf(curPage));
         }
-        mPresenter.getDoctorList("1", "1", "", "", String.valueOf(curPage+1));
     }
 
     @Override

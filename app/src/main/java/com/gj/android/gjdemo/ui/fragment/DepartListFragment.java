@@ -1,6 +1,5 @@
 package com.gj.android.gjdemo.ui.fragment;
 
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -13,6 +12,8 @@ import com.gj.android.bean.DepartBean;
 import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapter;
 import com.gj.android.commonlibrary.adapter.CommonRecyclerAdapterHelper;
 import com.gj.android.commonlibrary.base.BaseAutoRecylerListFragment;
+import com.gj.android.commonlibrary.util.AbAppUtils;
+import com.gj.android.commonlibrary.util.ToastUtils;
 import com.gj.android.commonlibrary.widget.LoadMoreRecyclerView;
 import com.gj.android.gjdemo.R;
 import com.gj.android.gjdemo.presenter.DepartListFragmentPresenter;
@@ -53,9 +54,9 @@ public class DepartListFragment extends BaseAutoRecylerListFragment {
      */
     public static DepartListFragment newInstance(int pageStr) {
         DepartListFragment departListFragment =  new DepartListFragment();
-        Bundle args = new Bundle();
-        args.putInt("pageStr",pageStr);
-        departListFragment.setArguments(args);
+//        Bundle args = new Bundle();
+//        args.putInt("pageStr",pageStr);
+//        departListFragment.setArguments(args);
         return departListFragment;
     }
 
@@ -135,11 +136,16 @@ public class DepartListFragment extends BaseAutoRecylerListFragment {
 
     @Override
     protected void getModelData() {
-        curPage = (int) getArguments().get("pageStr");
-        if (null == mPresenter) {
-            mPresenter = new DepartListFragmentPresenter(this);
+        if(!AbAppUtils.isNetworkAvailable(getActivity())&&loadType!=loadType.INIT) {
+            mRefreshLayout.setRefreshing(false);
+            curPage=1;
+            ToastUtils.show(getActivity(),"请开启网络");
+        }else{
+            if (null == mPresenter) {
+                mPresenter = new DepartListFragmentPresenter(this);
+            }
+            mPresenter.getDepartList();
         }
-        mPresenter.getDepartList();
     }
 
     @Override
