@@ -59,7 +59,7 @@ public class MainActivity extends BaseActivity {
                 tab.setCustomView(mMainFragmentPagerAdapter.getTabView(i));
             }
         }
-
+        mViewPager.setOffscreenPageLimit(5);
     }
 
 

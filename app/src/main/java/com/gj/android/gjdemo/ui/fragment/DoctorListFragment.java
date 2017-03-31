@@ -1,6 +1,5 @@
 package com.gj.android.gjdemo.ui.fragment;
 
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -53,9 +52,9 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
      */
     public static DoctorListFragment newInstance(int pageStr) {
         DoctorListFragment doctorListFragment =  new DoctorListFragment();
-        Bundle args = new Bundle();
-        args.putInt("pageStr",pageStr);
-        doctorListFragment.setArguments(args);
+//        Bundle args = new Bundle();
+//        args.putInt("pageStr",pageStr);
+//        doctorListFragment.setArguments(args);
         return doctorListFragment;
     }
 
@@ -102,6 +101,7 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
 
     public void cacheData(Object obj) {
         if(null!=obj){
+            mRecyclerView.removeAllViews();
             mRefreshLayout.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.VISIBLE);
             ll_no_data.setVisibility(View.GONE);
@@ -135,7 +135,6 @@ public class DoctorListFragment extends BaseAutoRecylerListFragment {
 
     @Override
     protected void getModelData() {
-        curPage = (int) getArguments().get("pageStr");
         if (null == mPresenter) {
             mPresenter = new DoctorListFragmentPresenter(this);
         }

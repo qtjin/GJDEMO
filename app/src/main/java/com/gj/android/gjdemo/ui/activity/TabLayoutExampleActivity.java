@@ -55,6 +55,7 @@ public class TabLayoutExampleActivity extends BaseActivity {
             int margin = (MyApplication.SCREEN_WIDTH / 5 - width) / 2 - 30;
             layoutParams.setMargins(margin, 0, margin, 0);
         }
+        mViewPager.setOffscreenPageLimit(5);
     }
 
     @Override

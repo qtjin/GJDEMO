@@ -24,7 +24,7 @@ public interface Api {
     * 我的动态列表
     */
    @FormUrlEncoded
-   @POST(URLs.METHOD_DOCTOR_LIST)
+   @POST(URLs.DOCTOR_LIST)
    @Headers("Cache-Control: public, max-age=60")
    Observable<BaseBean<DoctorListBean.DataBean>> getDoctorList(@Field("seqType") String seqType, @Field("drType") String drType
            , @Field("SearchStr") String SearchStr, @Field("sectionsName") String sectionsName, @Field("curPage") String curPage);

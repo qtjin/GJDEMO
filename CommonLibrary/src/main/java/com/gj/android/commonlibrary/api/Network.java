@@ -10,6 +10,7 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -34,24 +35,12 @@ public class Network {
 
     private static final String TAG = "Network";
 
-    private static CacheListener mCacheListener;
-
     private static Api api;
 
-    public interface CacheListener{
-        public void getLocalCache(String url);
-        public void setLocalCache(Object obj);
-    }
+    private static HashMap<String,String> cacheMap = new HashMap<>(); //保存请求URL的MAP来处理并发的情况
 
-    public static Network setCacheListener(CacheListener cacheListener){
-        synchronized (Network.class) {
-            mCacheListener = cacheListener;
-            return getInstance();
-        }
-    }
-
-    public static CacheListener getCacheListener(){
-        return mCacheListener;
+    public static HashMap<String,String> getCacheMap(){
+        return cacheMap;
     }
 
     /**
@@ -111,12 +100,15 @@ public class Network {
                 request = request.newBuilder()
                         .cacheControl(CacheControl.FORCE_CACHE)
                         .build();
-                synchronized (mCacheListener) {
-                    // 没有网络走缓存
-                    if (null != mCacheListener) {
-                        mCacheListener.getLocalCache(request.url().toString());
-                    }
-                }
+                String url = request.url().toString();
+                Log.d("Network","intercept url"+url);
+                cacheMap.put(url,"");
+//                synchronized (mCacheListener) {
+//                    // 没有网络走缓存
+//                    if (null != mCacheListener) {
+//                        mCacheListener.getLocalCache(request.url().toString());
+//                    }
+//                }
             }
             return chain.proceed(request);
         }

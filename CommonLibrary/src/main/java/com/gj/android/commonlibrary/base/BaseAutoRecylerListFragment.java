@@ -3,6 +3,8 @@ package com.gj.android.commonlibrary.base;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 
+import com.gj.android.commonlibrary.util.AbAppUtils;
+import com.gj.android.commonlibrary.util.ToastUtils;
 import com.gj.android.commonlibrary.widget.LoadMoreRecyclerView;
 
 /**
@@ -38,16 +40,24 @@ public abstract class BaseAutoRecylerListFragment extends BaseFragment implement
 
     @Override
     public void onLoadMore() {
-        loadType = LoadType.LOADMORE;
-        curPage++;
-        getModelData();
+        if(AbAppUtils.isNetworkAvailable(getActivity())){
+            loadType = LoadType.LOADMORE;
+            curPage++;
+            getModelData();
+        }else{
+            ToastUtils.show(getActivity(),"请开启网络");
+        }
     }
 
     @Override
     public void onRefresh() {
-        loadType = LoadType.REFERSH;
-        curPage=1;
-        getModelData();
+        if(AbAppUtils.isNetworkAvailable(getActivity())){
+            loadType = LoadType.REFERSH;
+            curPage=1;
+            getModelData();
+        }else{
+            ToastUtils.show(getActivity(),"请开启网络");
+        }
     }
 
     @Override
